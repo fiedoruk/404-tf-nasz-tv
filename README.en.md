@@ -26,7 +26,7 @@ News channels with programme titles and end times.
 [![Banner showing the current and next programmes](media/hud-banner.png)](media/hud-banner.png)
 
 What's on now and next. In this test, pressing Back hid the banner without changing channels.
-The broadcast picture appears black because it is protected from capture.
+Cropped to the banner: the broadcast picture is protected and comes out black in screenshots.
 
 ## What Dad gets
 

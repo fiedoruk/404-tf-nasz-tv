@@ -26,7 +26,7 @@ Lista kanałów informacyjnych z tytułami programów i godzinami ich zakończen
 [![Pasek z bieżącym i następnym programem](media/hud-banner.png)](media/hud-banner.png)
 
 Co leci teraz i co będzie dalej. W tej próbie Wstecz schował pasek bez zmiany kanału.
-Czarny obszar transmisji wynika z ochrony obrazu w zrzucie.
+Kadr przycięty do paska: obraz transmisji jest chroniony i na zrzucie wychodzi czarny.
 
 ## Co tata ma pod ręką
 
