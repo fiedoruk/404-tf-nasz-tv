@@ -1,0 +1,123 @@
+--- a/plugin.video.orange_go/addon.py
++++ b/plugin.video.orange_go/addon.py
+@@ -1,4 +1,5 @@
+ # -*- coding: utf-8 -*-
++# OrangeGo derivative; modified by Tomasz Fiedoruk on 2026-10-25. GPL-2.0; upstream author lg. See NOTICE.txt.
+ import os
+ import sys
+ 
+@@ -29,9 +30,9 @@
+ PATH_profile=xbmcvfs.translatePath(addon.getAddonInfo('profile'))
+ if not xbmcvfs.exists(PATH_profile):
+     xbmcvfs.mkdir(PATH_profile)
+-img_empty=PATH+'/resources/img/empty.png'
+-fanart=PATH+'/resources/img/fanart.jpg'
+-img_icon=PATH+'icon.png'
++img_empty='DefaultVideo.png'
++fanart=''
++img_icon='DefaultVideo.png'
+ 
+ 
+ UA='Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:140.0) Gecko/20100101 Firefox/140.0'
+@@ -699,7 +700,7 @@
+         }
+         
+         metadata=get_channel(CHANNEL_METADATA_PATH, c, apiURL_old+'resource/image/',
+-                             os.path.join(PATH, 'icon.png'), live=contType=='LIVE' and ts is None)
++                             'DefaultVideo.png', live=contType=='LIVE' and ts is None)
+         ISAplayer(stream_url,lickey,drm_conf,cert_data,metadata=metadata,pvr_context=params.get('tata_pvr')=='1')
+         zap_mark('resolved')
+     else:
+--- a/plugin.video.orange_go/addon.xml
++++ b/plugin.video.orange_go/addon.xml
+@@ -1,5 +1,6 @@
+ <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+-<addon id="plugin.video.orange_go" name="Orange Go (Tata local)" version="1.0.15" provider-name="lg; local Tata fork">
++<!-- OrangeGo derivative; modified by Tomasz Fiedoruk on 2026-10-25. GPL-2.0; upstream author lg. See NOTICE.txt. -->
++<addon id="plugin.video.orange_go" name="Orange Go — Nasz TV" version="1.0.15" provider-name="lg; Tomasz Fiedoruk">
+     <requires>
+         <import addon="script.module.requests" />
+         <import addon="script.module.inputstreamhelper" />
+@@ -18,11 +19,8 @@
+         </disclaimer>
+         <language>pl</language>
+         <platform>all</platform>
+-        <license>GNU GENERAL PUBLIC LICENSE. Version 2, June 1991</license>
++        <license>GPL-2.0</license>
+         <website></website>
+-        <assets>
+-            <icon>icon.png</icon>
+-        </assets>
+         <reuselanguageinvoker>true</reuselanguageinvoker>
+     </extension>
+ </addon>
+--- a/plugin.video.orange_go/resources/settings.xml
++++ b/plugin.video.orange_go/resources/settings.xml
+@@ -1,4 +1,5 @@
+ <?xml version="1.0" encoding="utf-8" standalone="yes"?>
++<!-- OrangeGo derivative; modified by Tomasz Fiedoruk on 2026-10-25. GPL-2.0; upstream author lg. See NOTICE.txt. -->
+ <settings>
+ 	<category label="Dane logowania">
+ 		<setting id="login"  type="text" label="Login" default="" />
+@@ -14,17 +15,4 @@
+ 		<setting id="tvreg" type="labelenum" label="Wersja TVP3" values="Białystok|Bydgoszcz|Gdańsk|Gorzów Wielkopolski|Katowice|Kielce|Kraków|Lublin|Łódź|Olsztyn|Opole|Poznań|Rzeszów|Szczecin|Warszawa|Wrocław" default="Warszawa" />
+ 		<setting id="showEpg" type="bool" label="Pokazuj EPG kanałów TV" default="true" />
+ 	</category>
+-	<!--
+-	<category label="Dane - DEV">
+-		<setting id="logged" type="text" label='logged' default="false"/>
+-		<setting id="ci" type="text" label='ci' default=""/>
+-		<setting id="ca" type="text" label='ca' default=""/>
+-		<setting id="Token" type="text" label='Token' default=""/>
+-		<setting id="TokenId" type="text" label='TokenId' default=""/>
+-		<setting id="refreshToken" type="text" label='refreshToken' default=""/>
+-		<setting id="tokenTime" type="text" label='tokenTime' default=""/>
+-		<setting id="hhTech" type="text" label='hhTech' default=""/>
+-		<setting id="householdExtId" type="text" label='householdExtId' default=""/>
+-	</category>
+-	-->
+ </settings>--- a/plugin.video.orange_go/resources/__init__.py
++++ b/plugin.video.orange_go/resources/__init__.py
+@@ -1 +1,2 @@
++# OrangeGo derivative; modified by Tomasz Fiedoruk on 2026-10-25. GPL-2.0; upstream author lg. See NOTICE.txt.
+ """Resources and local helpers for Orange Go."""
+--- a/plugin.video.orange_go/resources/lib/__init__.py
++++ b/plugin.video.orange_go/resources/lib/__init__.py
+@@ -1 +1,2 @@
++# OrangeGo derivative; modified by Tomasz Fiedoruk on 2026-10-25. GPL-2.0; upstream author lg. See NOTICE.txt.
+ """Local helpers for the Tata fork."""
+--- a/plugin.video.orange_go/resources/lib/tata_details.py
++++ b/plugin.video.orange_go/resources/lib/tata_details.py
+@@ -1,3 +1,4 @@
++# OrangeGo derivative; modified by Tomasz Fiedoruk on 2026-10-25. GPL-2.0; upstream author lg. See NOTICE.txt.
+ """On-demand public programme descriptions. No Kodi imports or I/O at import time."""
+ import datetime
+ import fcntl
+--- a/plugin.video.orange_go/resources/lib/tata_gui.py
++++ b/plugin.video.orange_go/resources/lib/tata_gui.py
+@@ -1,3 +1,4 @@
++# OrangeGo derivative; modified by Tomasz Fiedoruk on 2026-10-25. GPL-2.0; upstream author lg. See NOTICE.txt.
+ """Fixed Nasz TV bridge in Orange's reusable invocation; no Kodi I/O on import."""
+ import importlib.util
+ import os
+--- a/plugin.video.orange_go/resources/lib/tata_metadata.py
++++ b/plugin.video.orange_go/resources/lib/tata_metadata.py
+@@ -1,3 +1,4 @@
++# OrangeGo derivative; modified by Tomasz Fiedoruk on 2026-10-25. GPL-2.0; upstream author lg. See NOTICE.txt.
+ """Small, credential-free channel metadata cache; never performs network I/O."""
+ 
+ import json
+--- a/plugin.video.orange_go/resources/lib/tata_programmes.py
++++ b/plugin.video.orange_go/resources/lib/tata_programmes.py
+@@ -1,3 +1,4 @@
++# OrangeGo derivative; modified by Tomasz Fiedoruk on 2026-10-25. GPL-2.0; upstream author lg. See NOTICE.txt.
+ """Public programme index from already fetched EPG. Import has no I/O or Kodi dependency."""
+ import json
+ from datetime import datetime, timezone
+--- a/plugin.video.orange_go/resources/lib/tata_pvr.py
++++ b/plugin.video.orange_go/resources/lib/tata_pvr.py
+@@ -1,3 +1,4 @@
++# OrangeGo derivative; modified by Tomasz Fiedoruk on 2026-10-25. GPL-2.0; upstream author lg. See NOTICE.txt.
+ """Local M3U/XMLTV export. No Kodi, HTTP, credentials or DRM implementation."""
+ 
+ from datetime import datetime, timezone

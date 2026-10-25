@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addon id="script.orange.tata.setup" name="Pilot TV — konfiguracja taty" version="0.1.0" provider-name="Tomasz Fiedoruk">
+  <requires><import addon="xbmc.python" version="3.0.0"/></requires>
+  <extension point="xbmc.python.script" library="default.py"><provides>executable</provides></extension>
+  <extension point="xbmc.addon.metadata">
+    <summary lang="pl_PL">Jednorazowe mapowanie pilota dla telewizji PVR</summary>
+    <description lang="pl_PL">Instaluje wyłącznie własny keymap FullscreenLiveTV. Wywołanie z argumentem rollback przywraca poprzedni stan.</description>
+    <summary lang="en_GB">One-shot PVR remote keymap with rollback</summary>
+    <description lang="en_GB">Manages only zz-orange-tata.xml in the current Kodi profile.</description>
+    <platform>all</platform>
+    <license>MIT</license>
+  </extension>
+</addon>

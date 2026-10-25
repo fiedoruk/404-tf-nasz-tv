@@ -1,0 +1,390 @@
+{
+  "schema": 1,
+  "status": "Versions observed on one setup; not a complete dependency lock",
+  "items": [
+    {
+      "id": "inputstream.ffmpegdirect",
+      "version": "21.3.8",
+      "platform": "android-armv7",
+      "source_url": "https://mirrors.kodi.tv/addons/omega/inputstream.ffmpegdirect+android-armv7/inputstream.ffmpegdirect-21.3.8.zip",
+      "sha256": "54550ce557adca6747d5883c2c85c4a7cf1fe6d43e459bdcbeae13c7c7443389",
+      "included": false
+    },
+    {
+      "id": "inputstream.adaptive",
+      "version": "21.5.25",
+      "platform": "android-armv7",
+      "source_url": "https://mirrors.kodi.tv/addons/omega/inputstream.adaptive+android-armv7/inputstream.adaptive-21.5.25.zip",
+      "sha256": "973bb1fd9ddb549df260dd0321dd8fea37a2e949885bee5c4da9a23e3ba9090e",
+      "included": false
+    },
+    {
+      "id": "inputstream.rtmp",
+      "version": "21.1.2",
+      "platform": "android-armv7",
+      "source_url": "https://mirrors.kodi.tv/addons/omega/inputstream.rtmp+android-armv7/inputstream.rtmp-21.1.2.zip",
+      "sha256": "300fa80956dba4f7ad30a479f2dabb5f28bd156e232c0cbbbcc16334d148ec29",
+      "included": false
+    },
+    {
+      "id": "pvr.iptvsimple",
+      "version": "21.11.0",
+      "platform": "android-armv7",
+      "source_url": "https://mirrors.kodi.tv/addons/omega/pvr.iptvsimple+android-armv7/pvr.iptvsimple-21.11.0.zip",
+      "sha256": "b5684b422f9b6ed3ed38263e77ffae8dabfcf23659d511c88dc0ab154035c02b",
+      "included": false
+    },
+    {
+      "id": "script.module.js2py",
+      "version": "3.0.2",
+      "platform": "all",
+      "source_url": "https://raw.githubusercontent.com/mtr81/kodi_addons/5c7d7e1ebf78eea8e24ecdce74b5e6c80ed169ad/addons/script.module.js2py/script.module.js2py-3.0.2.zip",
+      "sha256": "8e325d9cac562d25128cefec281b61e0539750f0032df245228e49e13ef7703d",
+      "included": false
+    },
+    {
+      "id": "script.module.pyjsparser",
+      "version": "3.0.0",
+      "platform": "all",
+      "source_url": "https://raw.githubusercontent.com/mtr81/kodi_addons/5c7d7e1ebf78eea8e24ecdce74b5e6c80ed169ad/addons/script.module.pyjsparser/script.module.pyjsparser-3.0.0.zip",
+      "sha256": "44c60c1e4078783fcc3e0d8e5237861fa7f1ad4d69b26518773adbc25f87b428",
+      "included": false,
+      "license": "UNRESOLVED: MIT declarations, GPLv3 LICENSE in package",
+      "notice": "Not redistributed; obtaining upstream does not resolve this discrepancy"
+    },
+    {
+      "id": "script.module.requests",
+      "version": "2.31.0",
+      "platform": "all",
+      "source_url": "https://mirrors.kodi.tv/addons/omega/script.module.requests/script.module.requests-2.31.0.zip",
+      "sha256": "a5704f0fd7afb4154e1beea9b5f05a002bcd75fa581a1e5fd15ece39bf2bd38a",
+      "included": false
+    },
+    {
+      "id": "script.module.inputstreamhelper",
+      "version": "0.8.6",
+      "platform": "all",
+      "source_url": "https://mirrors.kodi.tv/addons/omega/script.module.inputstreamhelper/script.module.inputstreamhelper-0.8.6.zip",
+      "sha256": "326ff6182802c7fc3967df254823c84ba39eedacae03b1349eb4acafcb231801",
+      "included": false
+    },
+    {
+      "id": "script.module.certifi",
+      "version": "2023.5.7",
+      "platform": "all",
+      "source_url": "https://mirrors.kodi.tv/addons/omega/script.module.certifi/script.module.certifi-2023.5.7.zip",
+      "sha256": "c16d4cd2efe6e57dbb5e8d71a9beb3af213b1e3d717e8b0b24f0cbdc4c645070",
+      "included": false
+    },
+    {
+      "id": "script.module.chardet",
+      "version": "5.1.0",
+      "platform": "all",
+      "source_url": "https://mirrors.kodi.tv/addons/omega/script.module.chardet/script.module.chardet-5.1.0.zip",
+      "sha256": "d5010fc55a9523d86a306ae9e6a8dea0e3248fe079b9ed37280fe86110cd766a",
+      "included": false
+    },
+    {
+      "id": "script.module.idna",
+      "version": "3.10.0",
+      "platform": "all",
+      "source_url": "https://mirrors.kodi.tv/addons/omega/script.module.idna/script.module.idna-3.10.0.zip",
+      "sha256": "c4ff34dbfab2736e9214a374d331bd6f558d8b3fea8eb7902e210749509242b3",
+      "included": false
+    },
+    {
+      "id": "script.module.urllib3",
+      "version": "2.2.3",
+      "platform": "all",
+      "source_url": "https://mirrors.kodi.tv/addons/omega/script.module.urllib3/script.module.urllib3-2.2.3.zip",
+      "sha256": "740b2d63bb50eee9fb35f01c567ec8d3588c5bbd548e2b8d280932be30d82f53",
+      "included": false
+    },
+    {
+      "id": "script.module.pysocks",
+      "version": "1.7.0+matrix.1",
+      "platform": "all",
+      "source_url": "https://mirrors.kodi.tv/addons/omega/script.module.pysocks/script.module.pysocks-1.7.0+matrix.1.zip",
+      "sha256": "fd043d04eecbd3f34e85a9ff35c4cdab57af8a6d6e6b90317806a0f72685c03b",
+      "included": false
+    },
+    {
+      "id": "script.module.six",
+      "version": "1.16.0+matrix.1",
+      "platform": "all",
+      "source_url": "https://mirrors.kodi.tv/addons/omega/script.module.six/script.module.six-1.16.0+matrix.1.zip",
+      "sha256": "4197f7773f75ab9f16b3c920195acbb8b8b151b4b3c8c3e14fc4876e764e3860",
+      "included": false
+    },
+    {
+      "id": "script.module.tzlocal",
+      "version": "5.0.1",
+      "platform": "all",
+      "source_url": "https://mirrors.kodi.tv/addons/omega/script.module.tzlocal/script.module.tzlocal-5.0.1.zip",
+      "sha256": "8e1e660ba10b629bff21cb125ede8deb2b604442e67741d37f3a6f306a49a668",
+      "included": false
+    },
+    {
+      "id": "script.module.tzdata",
+      "version": "2023.3.0+matrix.1",
+      "platform": "all",
+      "source_url": "https://mirrors.kodi.tv/addons/omega/script.module.tzdata/script.module.tzdata-2023.3.0+matrix.1.zip",
+      "sha256": "d7e744b11598a1403768debafbfcfc4ad6248f9027573517a42fd810f19ecd13",
+      "included": false
+    },
+    {
+      "id": "script.module.backports.zoneinfo",
+      "version": "0.2.1",
+      "platform": "all",
+      "source_url": "https://mirrors.kodi.tv/addons/omega/script.module.backports.zoneinfo/script.module.backports.zoneinfo-0.2.1.zip",
+      "sha256": "e9f2a4ad3fb491c9165025b24cf36d0722044686e37ea3521e316eb13d77f8b9",
+      "included": false
+    },
+    {
+      "id": "kodi",
+      "version": "21.3",
+      "platform": "android-armeabi-v7a",
+      "source_url": "https://mirrors.kodi.tv/releases/android/arm/kodi-21.3-Omega-armeabi-v7a.apk",
+      "sha256": "12d75e895649f68f217e42c2d881a94fd3177d7b9a7937825852aed545520cc8",
+      "included": false,
+      "license": "GPL-2.0-or-later"
+    },
+    {
+      "id": "skin.arctic.zephyr.mod",
+      "version": "3.0.3",
+      "source_url": "https://github.com/beatmasterRS/skin.arctic.zephyr.mod/commit/28247cbd44417bbfc3bb63d6686f140df10e8748",
+      "sha256": null,
+      "hash_scope": "Full archive unknown; DialogSeekBar.xml pinned separately",
+      "license": "CC-BY-NC-SA-3.0 plus separate assets",
+      "included": false,
+      "commit": "28247cbd44417bbfc3bb63d6686f140df10e8748",
+      "file_pins": [
+        {
+          "path": "1080i/DialogSeekBar.xml",
+          "sha256": "ae88943851c92b74bd1368091c15e636477e15eb75a2ab21116980b9859889b2"
+        }
+      ]
+    },
+    {
+      "id": "projectivy",
+      "version": "4.72",
+      "source_url": "https://github.com/spocky/miproja1",
+      "sha256": null,
+      "optional": true,
+      "included": false,
+      "license": "No application open-source license inferred from issue repository"
+    },
+    {
+      "id": "plugin.video.orange_go",
+      "version": "1.0.5",
+      "included": false,
+      "source_url": "https://raw.githubusercontent.com/mtr81/kodi_addons/5c7d7e1ebf78eea8e24ecdce74b5e6c80ed169ad/addons/plugin.video.orange_go/plugin.video.orange_go-1.0.5.zip",
+      "commit": "5c7d7e1ebf78eea8e24ecdce74b5e6c80ed169ad",
+      "sha256": "30da60b049dd647675a66ab5e0a7b4dd41de2360c9a2450f6d9ee33f60d7380f",
+      "license": "GPL-2.0; upstream addon.xml declaration; LICENSE absent"
+    },
+    {
+      "id": "plugin.video.themoviedb.helper",
+      "version": "5.4.16",
+      "included": false,
+      "source_url": "https://mirrors.kodi.tv/addons/omega/plugin.video.themoviedb.helper/",
+      "sha256": null,
+      "license": "UNKNOWN for this pinned package",
+      "installation": "AZR dependencies via Kodi repositories; exact archive not verified"
+    },
+    {
+      "id": "resource.images.weathericons.white",
+      "version": "0.0.6",
+      "included": false,
+      "source_url": "https://mirrors.kodi.tv/addons/omega/resource.images.weathericons.white/",
+      "sha256": null,
+      "license": "UNKNOWN for this pinned package",
+      "installation": "AZR dependencies via Kodi repositories; exact archive not verified"
+    },
+    {
+      "id": "script.embuary.helper",
+      "version": "2.0.8",
+      "included": false,
+      "source_url": "https://mirrors.kodi.tv/addons/omega/script.embuary.helper/",
+      "sha256": null,
+      "license": "UNKNOWN for this pinned package",
+      "installation": "AZR dependencies via Kodi repositories; exact archive not verified"
+    },
+    {
+      "id": "script.embuary.info",
+      "version": "2.0.8",
+      "included": false,
+      "source_url": "https://mirrors.kodi.tv/addons/omega/script.embuary.info/",
+      "sha256": null,
+      "license": "UNKNOWN for this pinned package",
+      "installation": "AZR dependencies via Kodi repositories; exact archive not verified"
+    },
+    {
+      "id": "script.globalsearch",
+      "version": "9.0.7",
+      "included": false,
+      "source_url": "https://mirrors.kodi.tv/addons/omega/script.globalsearch/",
+      "sha256": null,
+      "license": "UNKNOWN for this pinned package",
+      "installation": "AZR dependencies via Kodi repositories; exact archive not verified"
+    },
+    {
+      "id": "script.image.resource.select",
+      "version": "3.0.2",
+      "included": false,
+      "source_url": "https://mirrors.kodi.tv/addons/omega/script.image.resource.select/",
+      "sha256": null,
+      "license": "UNKNOWN for this pinned package",
+      "installation": "AZR dependencies via Kodi repositories; exact archive not verified"
+    },
+    {
+      "id": "script.module.addon.signals",
+      "version": "0.0.6+matrix.1",
+      "included": false,
+      "source_url": "https://mirrors.kodi.tv/addons/omega/script.module.addon.signals/",
+      "sha256": null,
+      "license": "UNKNOWN for this pinned package",
+      "installation": "AZR dependencies via Kodi repositories; exact archive not verified"
+    },
+    {
+      "id": "script.module.arrow",
+      "version": "1.2.3",
+      "included": false,
+      "source_url": "https://mirrors.kodi.tv/addons/omega/script.module.arrow/",
+      "sha256": null,
+      "license": "UNKNOWN for this pinned package",
+      "installation": "AZR dependencies via Kodi repositories; exact archive not verified"
+    },
+    {
+      "id": "script.module.beautifulsoup4",
+      "version": "4.12.2",
+      "included": false,
+      "source_url": "https://mirrors.kodi.tv/addons/omega/script.module.beautifulsoup4/",
+      "sha256": null,
+      "license": "UNKNOWN for this pinned package",
+      "installation": "AZR dependencies via Kodi repositories; exact archive not verified"
+    },
+    {
+      "id": "script.module.dateutil",
+      "version": "2.8.2",
+      "included": false,
+      "source_url": "https://mirrors.kodi.tv/addons/omega/script.module.dateutil/",
+      "sha256": null,
+      "license": "UNKNOWN for this pinned package",
+      "installation": "AZR dependencies via Kodi repositories; exact archive not verified"
+    },
+    {
+      "id": "script.module.infotagger",
+      "version": "0.0.8",
+      "included": false,
+      "source_url": "https://mirrors.kodi.tv/addons/omega/script.module.infotagger/",
+      "sha256": null,
+      "license": "UNKNOWN for this pinned package",
+      "installation": "AZR dependencies via Kodi repositories; exact archive not verified"
+    },
+    {
+      "id": "script.module.jurialmunkey",
+      "version": "0.2.28",
+      "included": false,
+      "source_url": "https://mirrors.kodi.tv/addons/omega/script.module.jurialmunkey/",
+      "sha256": null,
+      "license": "UNKNOWN for this pinned package",
+      "installation": "AZR dependencies via Kodi repositories; exact archive not verified"
+    },
+    {
+      "id": "script.module.routing",
+      "version": "0.2.3+matrix.1",
+      "included": false,
+      "source_url": "https://mirrors.kodi.tv/addons/omega/script.module.routing/",
+      "sha256": null,
+      "license": "UNKNOWN for this pinned package",
+      "installation": "AZR dependencies via Kodi repositories; exact archive not verified"
+    },
+    {
+      "id": "script.module.simplecache",
+      "version": "2.0.2",
+      "included": false,
+      "source_url": "https://mirrors.kodi.tv/addons/omega/script.module.simplecache/",
+      "sha256": null,
+      "license": "UNKNOWN for this pinned package",
+      "installation": "AZR dependencies via Kodi repositories; exact archive not verified"
+    },
+    {
+      "id": "script.module.simpleeval",
+      "version": "0.9.13",
+      "included": false,
+      "source_url": "https://mirrors.kodi.tv/addons/omega/script.module.simpleeval/",
+      "sha256": null,
+      "license": "UNKNOWN for this pinned package",
+      "installation": "AZR dependencies via Kodi repositories; exact archive not verified"
+    },
+    {
+      "id": "script.module.soupsieve",
+      "version": "2.4.1",
+      "included": false,
+      "source_url": "https://mirrors.kodi.tv/addons/omega/script.module.soupsieve/",
+      "sha256": null,
+      "license": "UNKNOWN for this pinned package",
+      "installation": "AZR dependencies via Kodi repositories; exact archive not verified"
+    },
+    {
+      "id": "script.module.typing_extensions",
+      "version": "4.7.1",
+      "included": false,
+      "source_url": "https://mirrors.kodi.tv/addons/omega/script.module.typing_extensions/",
+      "sha256": null,
+      "license": "UNKNOWN for this pinned package",
+      "installation": "AZR dependencies via Kodi repositories; exact archive not verified"
+    },
+    {
+      "id": "script.module.unidecode",
+      "version": "1.3.6",
+      "included": false,
+      "source_url": "https://mirrors.kodi.tv/addons/omega/script.module.unidecode/",
+      "sha256": null,
+      "license": "UNKNOWN for this pinned package",
+      "installation": "AZR dependencies via Kodi repositories; exact archive not verified"
+    },
+    {
+      "id": "script.skinshortcuts",
+      "version": "2.0.3",
+      "included": false,
+      "source_url": "https://mirrors.kodi.tv/addons/omega/script.skinshortcuts/",
+      "sha256": null,
+      "license": "UNKNOWN for this pinned package",
+      "installation": "AZR dependencies via Kodi repositories; exact archive not verified"
+    },
+    {
+      "id": "resource.language.pl_pl",
+      "version": "11.0.94",
+      "included": false,
+      "source_url": "https://mirrors.kodi.tv/addons/omega/resource.language.pl_pl/resource.language.pl_pl-11.0.94.zip",
+      "sha256": "cd69a3bee7f976c3364f6e002518cfa33eb96b059485659a2b08972f62163e7a",
+      "license": "UNKNOWN in inspected package"
+    },
+    {
+      "id": "Widevine",
+      "version": null,
+      "source_url": "https://www.widevine.com/",
+      "sha256": null,
+      "included": false,
+      "note": "Platform/InputStream-managed DRM; no transferable package supplied"
+    },
+    {
+      "id": "station-logos-and-epg",
+      "version": null,
+      "source_url": "https://tvgo.orange.pl/",
+      "sha256": null,
+      "included": false,
+      "note": "Operator content obtained at runtime under user subscription"
+    },
+    {
+      "id": "AZR-fonts-and-artwork",
+      "version": null,
+      "source_url": "https://github.com/beatmasterRS/skin.arctic.zephyr.mod/tree/28247cbd44417bbfc3bb63d6686f140df10e8748",
+      "sha256": null,
+      "included": false,
+      "note": "Assets supplied only by upstream skin; separate rights apply"
+    }
+  ]
+}

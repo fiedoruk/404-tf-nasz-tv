@@ -1,0 +1,1091 @@
+diff --git a/plugin.video.orange_go/addon.py b/plugin.video.orange_go/addon.py
+--- a/plugin.video.orange_go/addon.py
++++ b/plugin.video.orange_go/addon.py
+@@ -17,6 +17,8 @@
+ import math
+ import hashlib
+ from urllib.parse import urlencode, quote_plus, quote, unquote, parse_qsl
++from resources.lib.tata_metadata import get_channel, save_channels
++from resources.lib.tata_pvr import render as render_tata_pvr, publish as publish_tata_pvr
+ 
+ base_url = sys.argv[0]
+ addon_handle = int(sys.argv[1])
+@@ -39,6 +41,8 @@
+ 
+ deviceType='web_otf'
+ deviceCat='otg'
++HTTP_TIMEOUT=20
++CHANNEL_METADATA_PATH=os.path.join(PATH_profile, 'channel-metadata.json')
+ 
+ def odi_gen():
+     data={
+@@ -73,7 +77,7 @@
+     hea={
+         'User-Agent':UA
+     }
+-    resp=requests.get(baseurl,headers=hea).text
++    resp=requests.get(baseurl,headers=hea,timeout=HTTP_TIMEOUT).text
+     
+     a_ci=re.compile(r'I12=([^;]+?);').findall(resp)
+     ci='' if len(a_ci)==0 else a_ci[0]
+@@ -96,29 +100,10 @@
+             cont=x()      
+             a_ca=re.compile(r'AnalyticsData=([^;]+?);').findall(cont)
+             ca='' if len(a_ca)==0 else a_ca[0]
+-        except:
+-            url='https://try.w3schools.com/try_compiler.php'
+-            h={
+-                'User-Agent':UA,
+-                'Content-Type':'application/x-www-form-urlencoded',
+-                'Referer':'https://www.w3schools.com/',
+-                'Origin':'https://www.w3schools.com'
+-            }
+-            code+='console.log(result);'
+-            data={
+-                "code": code,
+-                "code2": "",
+-                "code3": "",
+-                "codeInput": "",
+-                "lang": "56"
+-            }
+-            resp=requests.post(url,headers=h,data=data).text
+-            ca=re.compile(r'AnalyticsData=([^;]+?);').findall(resp)
+-            if len(ca)>0:
+-                ca=ca[0]
+-            else:
+-                xbmc.log('@@@ci+ca gen error: '+resp, level=xbmc.LOGINFO)
+-                return None,None
++        except Exception:
++            xbmc.log('@@@Cookies stage=local_js2py status=failed', level=xbmc.LOGINFO)
++            xbmcgui.Dialog().notification('Orange Go', 'Nie udało się przygotować cookies lokalnie. Sprawdź js2py.', xbmcgui.NOTIFICATION_INFO)
++            raise RuntimeError('Orange Go: local cookie preparation failed') from None
+ 
+     return ci,ca
+ 
+@@ -204,13 +189,31 @@
+         li.addContextMenuItems(cmItems, replaceItems=False)
+     xbmcplugin.addDirectoryItem(handle=addon_handle, url=url, listitem=li, isFolder=isF)
+ 
+-def ISAplayer(stream_url, lickey='', drm_config={}, cert_data=None):
++def set_playback_metadata(play_item, metadata, pvr_context=False):
++    if not metadata:
++        return
++    try:
++        play_item.setProperty('orangego.channel_id', metadata['channel_id'])
++        play_item.setProperty('orangego.is_live', 'true' if metadata['is_live'] else 'false')
++        if pvr_context:
++            return
++        play_item.setLabel(metadata['name'])
++        play_item.setArt({'thumb': metadata['logo'], 'icon': metadata['logo']})
++        info=play_item.getVideoInfoTag()
++        info.setTitle(metadata['name'])
++        info.setPlot(metadata['plot'])
++    except Exception:
++        xbmc.log('@@@Metadata stage=listitem status=unavailable', level=xbmc.LOGINFO)
++
++
++def ISAplayer(stream_url, lickey='', drm_config={}, cert_data=None, metadata=None, pvr_context=False):
+     import inputstreamhelper
+     PROTOCOL = 'mpd'
+     DRM = 'com.widevine.alpha'
+     is_helper = inputstreamhelper.Helper(PROTOCOL,DRM)
+     if is_helper.check_inputstream():
+         play_item = xbmcgui.ListItem(path=stream_url)
++        set_playback_metadata(play_item, metadata, pvr_context=pvr_context)
+         play_item.setMimeType('application/xml+dash')
+         play_item.setContentLookup(False)
+         play_item.setProperty('inputstream', is_helper.inputstream_addon)
+@@ -308,7 +311,7 @@
+             'password':pin
+         }
+         
+-        resp=requests.post(url,headers=hea,params=paramsUrl,cookies=cookiesGen(),json=data)
++        resp=requests.post(url,headers=hea,params=paramsUrl,cookies=cookiesGen(),json=data,timeout=HTTP_TIMEOUT)
+         if 'Token' in dict(resp.cookies):
+             addon.setSetting('Token',dict(resp.cookies)['Token'])
+             addon.setSetting('TokenId',dict(resp.cookies)['TokenId'])
+@@ -320,17 +323,17 @@
+             cookies=cookiesGen()
+             cookies['Token']=addon.getSetting('Token')
+             cookies['TokenId']=addon.getSetting('TokenId')
+-            resp=requests.get(url,headers=heaGen(),params=paramsGen(),cookies=cookies).json()
++            resp=requests.get(url,headers=heaGen(),params=paramsGen(),cookies=cookies,timeout=HTTP_TIMEOUT).json()
+             if 'householdExtId' in resp:
+                 addon.setSetting('householdExtId',resp['householdExtId'])
+                 addon.setSetting('hhTech',resp['hhTech'])
+                 logged=True
+                 xbmc.log('@@@Login: zalogowano', level=xbmc.LOGINFO)
+             else:
+-                xbmc.log('@@@Login error(2): '+str(resp), level=xbmc.LOGINFO)
++                xbmc.log('@@@Login stage=household status=invalid_response', level=xbmc.LOGINFO)
+                 
+         else:
+-            xbmc.log('@@@Login error(1): '+resp.text, level=xbmc.LOGINFO)
++            xbmc.log('@@@Login stage=auth status='+str(resp.status_code), level=xbmc.LOGINFO)
+                 
+         if logged:
+             addon.setSetting('logged','true')
+@@ -344,12 +347,12 @@
+ 
+ def logOut():
+     url=apiURL+'auth/logout'
+-    resp=requests.get(url,headers=heaGen(),cookies=cookiesGen(),params=paramsGen())
++    resp=requests.get(url,headers=heaGen(),cookies=cookiesGen(),params=paramsGen(),timeout=HTTP_TIMEOUT)
+     if resp.status_code==200:
+         para_logout()
+         xbmc.log('@@@Logout: wylogowano', level=xbmc.LOGINFO)
+     else:
+-        xbmc.log('@@@Logout error: '+resp.text, level=xbmc.LOGINFO)
++        xbmc.log('@@@Logout stage=auth status='+str(resp.status_code), level=xbmc.LOGINFO)
+     
+     
+ def para_logout():
+@@ -375,17 +378,16 @@
+             data={
+                 'refreshToken':addon.getSetting('refreshToken')
+             }
+-            resp=requests.post(url,headers=hea,cookies=cookiesGen(),params=paramsGen(),json=data)
++            resp=requests.post(url,headers=hea,cookies=cookiesGen(),params=paramsGen(),json=data,timeout=HTTP_TIMEOUT)
+             if 'Token' in dict(resp.cookies):
+                 now=int(time.time())
+                 addon.setSetting('Token',dict(resp.cookies)['Token'])
+                 addon.setSetting('TokenId',dict(resp.cookies)['TokenId'])
+                 addon.setSetting('refreshToken',resp.json()['refreshToken'])
+                 addon.setSetting('tokenTime',str(now))
+-                #print(resp.text)
+                 xbmc.log('@@@RefreshToken: nowy token', level=xbmc.LOGINFO)
+             else:
+-                xbmc.log('@@@RefreshToken - error: '+resp.text, level=xbmc.LOGINFO)
++                xbmc.log('@@@RefreshToken stage=auth status='+str(resp.status_code), level=xbmc.LOGINFO)
+                 xbmc.log('@@@RELOGIN', level=xbmc.LOGINFO)
+                 para_logout()
+                 logIn()
+@@ -398,7 +400,7 @@
+             xbmcplugin.endOfDirectory(addon_handle, succeeded=False)
+     
+ 
+-def epgData(d):
++def epgData(d,include_previous=True):
+     url=apiURL+'core/tvguide/epg'
+     
+     d1=strToDate(d+' 00:00:00','%Y-%m-%d %H:%M:%S')
+@@ -410,10 +412,10 @@
+         
+     epg={}
+     
+-    for dd in [str(d0_tmp),str(d1_tmp)]:
++    for dd in ([str(d0_tmp),str(d1_tmp)] if include_previous else [str(d1_tmp)]):
+         paramsUrl=paramsGen()
+         paramsUrl['date']=dd
+-        resp=requests.get(url,headers=heaGen(),cookies=cookiesGen(),params=paramsUrl).json()
++        resp=requests.get(url,headers=heaGen(),cookies=cookiesGen(),params=paramsUrl,timeout=HTTP_TIMEOUT).json()
+         epg[dd]=resp['guide'] if 'guide' in resp else {}
+         
+     return epg
+@@ -446,13 +448,14 @@
+ def channelList(): #helper
+     channels=[]
+     url=apiURL+'live/channel/all'
+-    resp=requests.get(url,headers=heaGen(),cookies=cookiesGen(),params=paramsGen())
++    resp=requests.get(url,headers=heaGen(),cookies=cookiesGen(),params=paramsGen(),timeout=HTTP_TIMEOUT)
+     xbmc.log('@@@Lista kanałów status_code: '+str(resp.status_code), level=xbmc.LOGINFO)
+     resp=resp.json()
+     if 'channelList' in resp:
+         channels=[c for c in resp['channelList'] if c['isSubscribed']]
++        save_channels(CHANNEL_METADATA_PATH, channels)
+     else:
+-        xbmc.log('@@@Lista kanałów error: '+str(resp), level=xbmc.LOGINFO)
++        xbmc.log('@@@Lista kanałów stage=channels status=invalid_response', level=xbmc.LOGINFO)
+     
+     return channels
+ 
+@@ -590,7 +593,7 @@
+     
+ def delSession(c): #helper
+     url=apiURL+'live/channel/'+c+'/session'
+-    resp=requests.delete(url,headers=heaGen(),cookies=cookiesGen(),params=paramsGen())
++    resp=requests.delete(url,headers=heaGen(),cookies=cookiesGen(),params=paramsGen(),timeout=HTTP_TIMEOUT)
+     xbmc.log('@@@Kasowanie sesji TV: result '+str(resp.status_code), level=xbmc.LOGINFO)
+     
+     
+@@ -605,34 +608,40 @@
+         "name": "FIREFOX",
+         "serialNumber": "FIREFOX_WEB_TERMINAL_1"+addon.getSetting('householdExtId')
+     }
+-    resp=requests.post(url,headers=hea,cookies=cookiesGen(),params=paramsGen(),json=data)
++    resp=requests.post(url,headers=hea,cookies=cookiesGen(),params=paramsGen(),json=data,timeout=HTTP_TIMEOUT)
+     
+     return resp
+ 
+ def playSource(c,pid=None,contType='LIVE',ts=None,te=None):
++    zap_started=time.monotonic()
++    def zap_mark(stage):
++        xbmc.log('@@@TataZap stage='+stage+' elapsed_ms='+str(int((time.monotonic()-zap_started)*1000)), level=xbmc.LOGINFO)
++    zap_mark('start')
+     prevC=addon.getSetting('prevC')
+     if prevC!='':
+         delSession(prevC)
++        zap_mark('session_deleted')
+     
+     url=apiURL+'live/channel/'+c
+     if contType=='CATCHUP':
+         url+='/'+pid+'/catchup'
+-    resp=requests.get(url,headers=heaGen(),cookies=cookiesGen(),params=paramsGen())
++    resp=requests.get(url,headers=heaGen(),cookies=cookiesGen(),params=paramsGen(),timeout=HTTP_TIMEOUT)
+ 
+     if resp.status_code==412:
+         rt=registerTerminal(c)
+         if rt.status_code!=200:
+             xbmcgui.Dialog().notification('Orange Go', 'Problem z rejestracją terminala', xbmcgui.NOTIFICATION_INFO)
+             xbmcplugin.setResolvedUrl(addon_handle, False, xbmcgui.ListItem())
+-            xbmc.log('@@@Rejestracja terminala error: '+rt.text, level=xbmc.LOGINFO)
++            xbmc.log('@@@Rejestracja terminala stage=register status='+str(rt.status_code), level=xbmc.LOGINFO)
+             return
+-        resp=requests.get(url,headers=heaGen(),cookies=cookiesGen(),params=paramsGen())
++        resp=requests.get(url,headers=heaGen(),cookies=cookiesGen(),params=paramsGen(),timeout=HTTP_TIMEOUT)
+         if resp.status_code==412:
+             xbmcgui.Dialog().notification('Orange Go', 'Problem z ustanowieniem sesji', xbmcgui.NOTIFICATION_INFO)
+             xbmcplugin.setResolvedUrl(addon_handle, False, xbmcgui.ListItem())
+-            xbmc.log('@@@Ustanowienie sesji TV error: '+resp.text, level=xbmc.LOGINFO)
++            xbmc.log('@@@Ustanowienie sesji TV stage=session status='+str(resp.status_code), level=xbmc.LOGINFO)
+             return
+     
++    zap_mark('channel_response')
+     resp=resp.json()
+ 
+     if 'casToken' in resp:
+@@ -646,7 +655,7 @@
+         #ver TVP3
+         if c=='14215':
+             url_reg=apiURL+'live/regional-tv/all'
+-            resp_reg=requests.get(url_reg,headers=heaGen(),cookies=cookiesGen(),params=paramsGen()).json()
++            resp_reg=requests.get(url_reg,headers=heaGen(),cookies=cookiesGen(),params=paramsGen(),timeout=HTTP_TIMEOUT).json()
+             if 'regionalTvPackageList' in resp_reg:
+                 srcs=[r['regionalTvList'] for r in resp_reg['regionalTvPackageList'] if r['channelExtId']==c]
+                 if len(srcs)>0:
+@@ -661,7 +670,8 @@
+         #cert WV
+         url='https://cps.purpledrm.com/wv_certificate/cert_license_widevine_com.bin'
+         hc={'User-Agent':UA,'Origin':baseurl[:-1],'Referer':baseurl}
+-        resp_cert=requests.get(url,headers=hc).content
++        resp_cert=requests.get(url,headers=hc,timeout=HTTP_TIMEOUT).content
++        zap_mark('certificate')
+         cert_data=base64.b64encode(resp_cert).decode('utf-8')
+         
+         lic_url=baseurl+'RTEFacade_RIGHTV/widevinedrm?token='+quote(casToken)
+@@ -688,11 +698,14 @@
+             }
+         }
+         
+-        ISAplayer(stream_url,lickey,drm_conf,cert_data)
++        metadata=get_channel(CHANNEL_METADATA_PATH, c, apiURL_old+'resource/image/',
++                             os.path.join(PATH, 'icon.png'), live=contType=='LIVE' and ts is None)
++        ISAplayer(stream_url,lickey,drm_conf,cert_data,metadata=metadata,pvr_context=params.get('tata_pvr')=='1')
++        zap_mark('resolved')
+     else:
+         xbmcgui.Dialog().notification('Orange Go', 'Brak źródła', xbmcgui.NOTIFICATION_INFO)
+         xbmcplugin.setResolvedUrl(addon_handle, False, xbmcgui.ListItem())
+-        xbmc.log('@@@Odtwarzanie TV error: '+str(resp), level=xbmc.LOGINFO)
++        xbmc.log('@@@Odtwarzanie TV stage=playback status=no_source', level=xbmc.LOGINFO)
+     
+ 
+ def listM3U():
+@@ -731,13 +744,56 @@
+ 
+ 
+ 
++def export_tata_pvr():
++    # Silent export uses the existing session; no interactive login/cookie fallback.
++    if addon.getSetting('logged')!='true' or not all(addon.getSetting(key) for key in ('Token', 'TokenId', 'ci', 'ca')):
++        xbmc.log('@@@TataPvr stage=session status=not_ready', level=xbmc.LOGINFO)
++        return False
++    try:
++        channels=channelList()
++        today=datetime.datetime.now()
++        tomorrow=today+datetime.timedelta(days=1)
++        epg=epgData(dateToStr(today, '%Y-%m-%d'))
++        epg.update(epgData(dateToStr(tomorrow, '%Y-%m-%d'),include_previous=False))
++    except Exception:
++        xbmc.log('@@@TataPvr stage=fetch status=failed', level=xbmc.LOGINFO)
++        return False
++    try:
++        m3u, xml=render_tata_pvr(channels, epg, apiURL_old+'resource/image/')
++        from resources.lib.tata_programmes import build_index as build_programme_index
++        index=build_programme_index(channels, epg)
++    except Exception:
++        xbmc.log('@@@TataPvr stage=metadata status=failed', level=xbmc.LOGINFO)
++        return False
++    try:
++        publish_tata_pvr(os.path.join(PATH_profile, 'tata'), m3u, xml, index)
++    except Exception:
++        xbmc.log('@@@TataPvr stage=publish status=failed', level=xbmc.LOGINFO)
++        return False
++    xbmc.log('@@@TataPvr stage=publish status=ok', level=xbmc.LOGINFO)
++    return True
++
++
+ mode = params.get('mode', None)
+ 
+-refreshToken()
++if mode not in ('exportTataPvr', 'nasztv'):
++    refreshToken()
+ 
+ if not mode:    
+     main_menu()
+ else:
++    if mode=='nasztv':
++        from resources.lib.tata_gui import run as run_nasztv
++        run_nasztv(params.get('action'), xbmcgui.Window(10000), xbmc, xbmcaddon, xbmcvfs,
++                   lambda message: xbmcgui.Dialog().notification('Nasz TV', message, xbmcgui.NOTIFICATION_INFO))
++
++    if mode=='exportTataPvr':
++        try:
++            export_tata_pvr()
++        finally:
++            if addon_handle>=0:
++                xbmcplugin.endOfDirectory(addon_handle, succeeded=False, cacheToDisc=False)
++
+     if mode=='logIn':#
+         logIn()
+         xbmc.executebuiltin('Container.Update(plugin://plugin.video.orange_go/,replace)')
+diff --git a/plugin.video.orange_go/addon.xml b/plugin.video.orange_go/addon.xml
+--- a/plugin.video.orange_go/addon.xml
++++ b/plugin.video.orange_go/addon.xml
+@@ -1,5 +1,5 @@
+ <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+-<addon id="plugin.video.orange_go" name="Orange Go" version="1.0.5" provider-name="lg">
++<addon id="plugin.video.orange_go" name="Orange Go (Tata local)" version="1.0.15" provider-name="lg; local Tata fork">
+     <requires>
+         <import addon="script.module.requests" />
+         <import addon="script.module.inputstreamhelper" />
+@@ -25,4 +25,4 @@
+         </assets>
+         <reuselanguageinvoker>true</reuselanguageinvoker>
+     </extension>
+-</addon>
+\ No newline at end of file
++</addon>
+diff --git a/plugin.video.orange_go/resources/__init__.py b/plugin.video.orange_go/resources/__init__.py
+new file mode 100644
+--- /dev/null
++++ b/plugin.video.orange_go/resources/__init__.py
+@@ -0,0 +1 @@
++"""Resources and local helpers for Orange Go."""
+diff --git a/plugin.video.orange_go/resources/lib/__init__.py b/plugin.video.orange_go/resources/lib/__init__.py
+new file mode 100644
+--- /dev/null
++++ b/plugin.video.orange_go/resources/lib/__init__.py
+@@ -0,0 +1 @@
++"""Local helpers for the Tata fork."""
+diff --git a/plugin.video.orange_go/resources/lib/tata_details.py b/plugin.video.orange_go/resources/lib/tata_details.py
+new file mode 100644
+--- /dev/null
++++ b/plugin.video.orange_go/resources/lib/tata_details.py
+@@ -0,0 +1,302 @@
++"""On-demand public programme descriptions. No Kodi imports or I/O at import time."""
++import datetime
++import fcntl
++import hashlib
++import json
++import os
++from pathlib import Path
++import tempfile
++import time
++import urllib.error
++import urllib.parse
++import urllib.request
++from .tata_programmes import channel_id, normal, now_next
++from .tata_pvr import text
++
++PREFIX = 'nasztv.details.'
++MODE = 'nasztv.hud.mode'
++MAX_BODY = 2 * 1024 * 1024
++FIELDS = ('channel_name', 'now_title', 'now_start', 'now_end', 'now_plot',
++          'next_title', 'next_start', 'next_end', 'next_plot')
++UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:140.0) Gecko/20100101 Firefox/140.0'
++
++
++class DetailError(Exception):
++    pass
++
++
++class NoRedirect(urllib.request.HTTPRedirectHandler):
++    def redirect_request(self, req, fp, code, msg, hdrs, newurl):
++        return None
++
++
++class KodiAPI:
++    def __init__(self, api=None):
++        if api is None:
++            import xbmc
++            api = xbmc
++        import xbmcaddon
++        import xbmcvfs
++        self.api = api
++        self.addon = xbmcaddon.Addon('plugin.video.orange_go')
++        self.profile = Path(xbmcvfs.translatePath(self.addon.getAddonInfo('profile')))
++
++    def label(self, name):
++        return self.api.getInfoLabel(name)
++
++    def playing(self):
++        return self.api.getCondVisibility('PVR.IsPlayingTV')
++
++    def now(self):
++        return time.time()
++
++    def fetch_detail(self, pid):
++        keys = ('logged', 'ci', 'ca', 'Token', 'TokenId', 'hhTech', 'householdExtId')
++        values = {k: self.addon.getSetting(k) for k in keys}
++        if values['logged'] != 'true' or not all(values[k].strip() for k in keys[1:5]):
++            raise DetailError('auth_missing')
++        if any('\n' in v or '\r' in v for v in values.values()):
++            raise DetailError('invalid_session')
++        odi = {'dev_type': 'web_otf', 'app_version': '1.21.1', 'web_native': UA,
++               'hh_tech': values['hhTech'], 'serial_number': 'FIREFOX_WEB_TERMINAL_1' + values['householdExtId'], 'offer': ''}
++        cookies = {'AnalyticsData': values['ca'], 'I12': values['ci'], 'Token': values['Token'],
++                   'TokenId': values['TokenId'], 'Authenticated': 'true'}
++        headers = {'Origin': 'https://tvgo.orange.pl', 'Referer': 'https://tvgo.orange.pl/',
++                   'User-Agent': UA, 'OtvDeviceInfo2': urllib.parse.urlencode(odi),
++                   'Accept': 'application/json;ver=1', 'Accept-Encoding': 'identity',
++                   'Cookie': '; '.join(k + '=' + v for k, v in cookies.items())}
++        url = 'https://tvgo.orange.pl/gpapi2/core/tvguide/details?' + urllib.parse.urlencode(
++            {'programExtId': pid, 'deviceCat': 'otg'})
++        started = time.monotonic()
++        try:
++            opener = urllib.request.build_opener(urllib.request.ProxyHandler({}), NoRedirect())
++            with opener.open(urllib.request.Request(url, headers=headers), timeout=5) as response:
++                if response.status != 200 or int(response.headers.get('Content-Length', 0)) > MAX_BODY:
++                    raise DetailError('response_failed')
++                data = bytearray()
++                while not response.isclosed():
++                    remaining = 5 - (time.monotonic() - started)
++                    if remaining <= 0:
++                        raise DetailError('timeout')
++                    response.fp.raw._sock.settimeout(remaining)
++                    chunk = response.read1(min(65536, MAX_BODY + 1 - len(data)))
++                    if not chunk:
++                        break
++                    data.extend(chunk)
++                    if len(data) > MAX_BODY:
++                        raise DetailError('response_too_large')
++                value = json.loads(data.decode('utf-8'))
++                if not isinstance(value, dict) or value.get('errCode') or value.get('error'):
++                    raise DetailError('api_error')
++                return value
++        except urllib.error.HTTPError as error:
++            error.close()
++            raise DetailError('http_error') from None
++        except Exception:
++            raise DetailError('unavailable') from None
++
++
++def _read(path, limit, optional=False):
++    try:
++        with open(path, 'rb') as handle:
++            data = handle.read(limit + 1)
++        if len(data) > limit:
++            raise ValueError('size')
++        result = json.loads(data.decode('utf-8'))
++        if not isinstance(result, dict):
++            raise ValueError('schema')
++        return result
++    except (OSError, ValueError, UnicodeError):
++        if optional:
++            return {}
++        raise
++
++
++def _hm(epoch):
++    return datetime.datetime.fromtimestamp(epoch).strftime('%H:%M')
++
++
++def _normal_hm(value):
++    """Compare Kodi's h:mm/HH:mm only; keep raw labels for GUI identity guards."""
++    if not isinstance(value, str):
++        return None
++    parts = value.strip().split(':')
++    if (len(parts) != 2 or len(parts[0]) not in (1, 2) or len(parts[1]) != 2
++            or any(c not in '0123456789' for part in parts for c in part)):
++        return None
++    hour, minute = map(int, parts)
++    return '%02d:%02d' % (hour, minute) if hour < 24 and minute < 60 else None
++
++
++class _PublicFiles:
++    """Parsed public files reused only inside one load_for_current invocation."""
++    def __init__(self, profile):
++        self.paths = (Path(profile) / 'channel-metadata.json', Path(profile) / 'tata/programme-index.json')
++        self.fingerprints = None
++        self.data = None
++
++    def _stat(self):
++        values = []
++        for path in self.paths:
++            stat = path.stat()
++            values.append((stat.st_dev, stat.st_ino, stat.st_mtime_ns, stat.st_size))
++        return tuple(values)
++
++    def read(self):
++        before = self._stat()
++        if self.data is not None and self.fingerprints == before:
++            data = self.data
++        else:
++            data = (_read(self.paths[0], 512 * 1024), _read(self.paths[1], 8 * 1024 * 1024))
++        after = self._stat()
++        if before != after:
++            raise ValueError('public_snapshot_changed')  # Fail closed; no read retry loop.
++        self.fingerprints, self.data = after, data
++        return data
++
++
++def _snapshot(home, api, public_files=None):
++    if home.getProperty(MODE) != '2' or not api.playing():
++        return None
++    metadata, index = (public_files or _PublicFiles(api.profile)).read()
++    if metadata.get('schema') != 1 or index.get('schema') != 1:
++        return None
++    name = api.label('VideoPlayer.ChannelName')
++    cid = channel_id(metadata, name)
++    selected = now_next(index, cid, api.now()) if cid else None
++    if selected is None:
++        return None
++    labels = {'channel_name': name}
++    for role, p in selected.items():
++        base = 'VideoPlayer.' + ('Next' if role == 'next' else '')
++        if p is not None:
++            expected = (normal(p['title']), _hm(p['start']), _hm(p['end']))
++            actual = (normal(api.label(base + 'Title')), _normal_hm(api.label(base + 'StartTime')),
++                      _normal_hm(api.label(base + 'EndTime')))
++            if expected != actual:
++                return None
++        for field, suffix in (('title', 'Title'), ('start', 'StartTime'), ('end', 'EndTime'), ('plot', 'Plot')):
++            labels[role + '_' + field] = text(api.label(base + suffix), 16384) if p is not None else ''
++    identity = (cid, normal(name), tuple((role, p['id'], p['title'], p['start'], p['end'])
++                                       for role, p in selected.items() if p is not None))
++    return identity, selected, labels
++
++
++def _key(cid, p):
++    return hashlib.sha256(json.dumps([cid, p['id'], p['start'], p['end']], separators=(',', ':')).encode()).hexdigest()
++
++
++def _publish(home, labels, status):
++    home.setProperty(PREFIX + 'status', 'loading')
++    for field in FIELDS:
++        home.setProperty(PREFIX + field, labels.get(field, ''))
++    home.setProperty(PREFIX + 'status', status)
++
++
++def _request_identity(api):
++    return tuple(api.label('VideoPlayer.' + field) for field in ('ChannelName', 'StartTime', 'NextStartTime'))
++
++
++def _cache_write(path, records):
++    records = dict(sorted(records.items(), key=lambda item: item[1]['used'], reverse=True)[:32])
++    fd, tmp = tempfile.mkstemp(prefix='.details-', dir=str(path.parent))
++    try:
++        with os.fdopen(fd, 'w', encoding='utf-8') as handle:
++            json.dump({'schema': 1, 'records': records}, handle, ensure_ascii=False, separators=(',', ':'))
++            handle.flush()
++            os.fsync(handle.fileno())
++        os.replace(tmp, path)
++    finally:
++        if os.path.exists(tmp):
++            os.unlink(tmp)
++
++
++def load_for_current(home, api=None):
++    """Call after GUI dispatch lock is released. api may be xbmc or an injected HOST bridge."""
++    if home.getProperty(MODE) != '2':
++        return 'inactive'
++    try:
++        api = api if api is not None and hasattr(api, 'fetch_detail') else KodiAPI(api)
++    except Exception:
++        _publish(home, {}, 'error')
++        return 'error'
++    profile = Path(api.profile) / 'tata'
++    try:
++        profile.mkdir(parents=True, exist_ok=True, mode=0o700)
++        with open(profile / 'details.lock', 'a+b') as lock:
++            try:
++                fcntl.flock(lock.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
++            except BlockingIOError:
++                return 'busy'
++            try:
++                home.setProperty(PREFIX + 'busy', '1')
++                request_identity = _request_identity(api)
++                if (home.getProperty(MODE) != '2' or not api.playing()
++                        or request_identity != _request_identity(api)):
++                    return 'cache_only'
++                for key, value in zip(('request_channel_name', 'request_now_start', 'request_next_start'), request_identity):
++                    home.setProperty(PREFIX + key, value)
++                public_files = _PublicFiles(api.profile)
++                initial = _snapshot(home, api, public_files)
++                if initial is None:
++                    if home.getProperty(MODE) == '2' and api.playing():
++                        _publish(home, {}, 'empty')
++                    return 'empty'
++                identity, selected, labels = initial
++                if request_identity != tuple(labels[key] for key in ('channel_name', 'now_start', 'next_start')):
++                    return 'cache_only'
++                cache_path = profile / 'details-cache.json'
++                cached = _read(cache_path, 1024 * 1024, optional=True)
++                records = cached.get('records', {}) if cached.get('schema') == 1 else {}
++                now = api.now()
++                records = {k: v for k, v in records.items() if isinstance(v, dict)
++                           and isinstance(v.get('expires'), (int, float)) and v['expires'] > now
++                           and isinstance(v.get('plot'), str) and isinstance(v.get('used'), (int, float))}
++                _publish(home, labels, 'loading')
++                failed = False
++                for role, p in selected.items():
++                    if p is None or labels[role + '_plot']:
++                        continue  # Native Plot is always first; never fetch it again.
++                    key = _key(identity[0], p)
++                    if key in records:
++                        labels[role + '_plot'] = text(records[key]['plot'], 16384)
++                        records[key]['used'] = now
++                        continue
++                    if home.getProperty(MODE) != '2' or normal(api.label('VideoPlayer.ChannelName')) != normal(labels['channel_name']):
++                        break
++                    try:
++                        detail = api.fetch_detail(p['id'])
++                        if (str(detail.get('programExtId')) != p['id']
++                                or str(detail.get('channelExtId')) != identity[0]
++                                or detail.get('startTimeUtc') != p['start'] or detail.get('endTimeUtc') != p['end']):
++                            raise DetailError('identity_mismatch')
++                        series = detail.get('series', {})
++                        plot = text(series.get('episodeDescription'), 16384) if isinstance(series, dict) else ''
++                        plot = plot or text(detail.get('description'), 16384)
++                        labels[role + '_plot'] = plot
++                        records[key] = {'plot': plot, 'expires': p['end'] + 900 if plot else now + 300, 'used': now}
++                    except Exception:
++                        failed = True
++                        records[key] = {'plot': '', 'expires': now + 300, 'used': now}
++                        break  # No retries or second request after failure/auth error.
++                try:
++                    _cache_write(cache_path, records)
++                except OSError:
++                    pass  # Cache write failure must not interrupt playback or discard valid text.
++                final = _snapshot(home, api, public_files)
++                if final is None or final[0] != identity:
++                    return 'cache_only'
++                for role in ('now', 'next'):
++                    labels[role + '_plot'] = final[2][role + '_plot'] or labels[role + '_plot']
++                status = 'ready' if labels['now_plot'] or labels['next_plot'] else 'error' if failed else 'empty'
++                _publish(home, labels, status)
++                return status
++            finally:
++                try:
++                    home.clearProperty(PREFIX + 'busy')
++                finally:
++                    fcntl.flock(lock.fileno(), fcntl.LOCK_UN)
++    except Exception:
++        if home.getProperty(MODE) == '2' and api.playing():
++            _publish(home, {}, 'error')
++        return 'error'
+diff --git a/plugin.video.orange_go/resources/lib/tata_gui.py b/plugin.video.orange_go/resources/lib/tata_gui.py
+new file mode 100644
+--- /dev/null
++++ b/plugin.video.orange_go/resources/lib/tata_gui.py
+@@ -0,0 +1,67 @@
++"""Fixed Nasz TV bridge in Orange's reusable invocation; no Kodi I/O on import."""
++import importlib.util
++import os
++import sys
++
++GUI_ID = 'script.nasztv.gui'
++GUI_VERSION = '0.1.9'
++ACTIONS = ('cycle', 'help', 'back', 'details')
++
++
++def _dispatch(gui, vfs):
++    name = '_nasztv_dispatch_' + GUI_VERSION.replace('.', '_')
++    if name not in sys.modules:
++        path = os.path.join(vfs.translatePath(gui.getAddonInfo('path')), 'dispatch.py')
++        spec = importlib.util.spec_from_file_location(name, path)
++        module = importlib.util.module_from_spec(spec)
++        spec.loader.exec_module(module)
++        if not callable(module.serial_handle):
++            raise ValueError('invalid_dispatcher')
++        sys.modules[name] = module
++    return sys.modules[name]
++
++
++def _details_ready(home, api):
++    if (home.getProperty('nasztv.hud.mode') != '2'
++            or home.getProperty('nasztv.hud.help') == '1'
++            or home.getProperty('nasztv.details.busy') == '1'
++            or not api.getCondVisibility('PVR.IsPlayingTV')
++            or not api.getCondVisibility('VideoPlayer.HasEpg')
++            or not api.getCondVisibility('Window.IsActive(fullscreenvideo)')
++            or api.getCondVisibility('Player.Caching')):
++        return False
++    current = tuple(api.getInfoLabel('VideoPlayer.' + key)
++                    for key in ('ChannelName', 'StartTime', 'NextStartTime'))
++    if not current[0] or home.getProperty('nasztv.playback.ready_channel') != current[0]:
++        return False
++    requested = tuple(home.getProperty('nasztv.details.request_' + key)
++                      for key in ('channel_name', 'now_start', 'next_start'))
++    return (current != requested
++            and (not api.getInfoLabel('VideoPlayer.Plot')
++                 or not api.getInfoLabel('VideoPlayer.NextPlot')))
++
++
++def run(action, home, api, addons, vfs, notify):
++    """No login, arbitrary paths or commands. GUI remains the only input logic."""
++    if action not in ACTIONS:
++        return 'invalid_action'
++    try:
++        gui = addons.Addon(GUI_ID)
++        if gui.getAddonInfo('version') != GUI_VERSION:
++            raise ValueError('gui_version')
++    except Exception:
++        if action != 'details':
++            notify('Nakładka Nasz TV wymaga zgodnej aktualizacji.')
++        return 'gui_unavailable'
++    try:
++        if action == 'details':
++            if not _details_ready(home, api):
++                return 'inactive'
++            from .tata_details import load_for_current
++            return load_for_current(home, api)  # Its own nonblocking lock, not dispatch.lock.
++        profile = vfs.translatePath(gui.getAddonInfo('profile'))
++        _dispatch(gui, vfs).serial_handle(action, home, api, profile)
++        return 'handled'
++    except Exception as exc:
++        api.log('[NaszTV adapter] unavailable: ' + type(exc).__name__, api.LOGWARNING)
++        return 'error'
+diff --git a/plugin.video.orange_go/resources/lib/tata_metadata.py b/plugin.video.orange_go/resources/lib/tata_metadata.py
+new file mode 100644
+--- /dev/null
++++ b/plugin.video.orange_go/resources/lib/tata_metadata.py
+@@ -0,0 +1,75 @@
++"""Small, credential-free channel metadata cache; never performs network I/O."""
++
++import json
++import os
++import tempfile
++
++MAX_CACHE_BYTES = 512 * 1024
++
++
++def _text(value, limit=256):
++    return value.strip()[:limit] if isinstance(value, str) else ''
++
++
++def save_channels(path, channels):
++    """Write only public channel fields; failure must not affect channel listing."""
++    temporary = None
++    try:
++        entries = {}
++        for channel in channels:
++            cid = channel.get('channelExtId')
++            if not isinstance(cid, (str, int)) or isinstance(cid, bool):
++                continue
++            cid = str(cid).strip()[:128]
++            if not cid:
++                continue
++            entries[cid] = {
++                'name': _text(channel.get('name')),
++                'logo_signature': _text(channel.get('logoSignature'), 1024),
++                'category': _text(channel.get('category')),
++            }
++        payload = json.dumps({'schema': 1, 'channels': entries}, ensure_ascii=False)
++        if len(payload.encode('utf-8')) > MAX_CACHE_BYTES:
++            return False
++        fd, temporary = tempfile.mkstemp(prefix='channel-metadata-', suffix='.tmp',
++                                         dir=os.path.dirname(path))
++        with os.fdopen(fd, 'w', encoding='utf-8') as handle:
++            handle.write(payload)
++        os.replace(temporary, path)
++        return True
++    except (OSError, TypeError, ValueError, AttributeError):
++        return False
++    finally:
++        if temporary and os.path.exists(temporary):
++            try:
++                os.unlink(temporary)
++            except OSError:
++                pass
++
++
++def get_channel(path, cid, logo_base, fallback_icon, live=True):
++    """Resolve a label without fetching channels or EPG on the playback path."""
++    cid = str(cid).strip()[:128] if cid is not None else ''
++    entry = {}
++    try:
++        with open(path, encoding='utf-8') as handle:
++            raw = handle.read(MAX_CACHE_BYTES + 1)
++        if len(raw.encode('utf-8')) <= MAX_CACHE_BYTES:
++            cache = json.loads(raw)
++            if cache.get('schema') == 1:
++                entry = cache.get('channels', {}).get(cid, {})
++        if not isinstance(entry, dict):
++            entry = {}
++    except (OSError, TypeError, ValueError, AttributeError):
++        entry = {}
++    name = _text(entry.get('name')) or ('Kanał ' + cid if cid else 'Orange TV')
++    signature = _text(entry.get('logo_signature'), 1024)
++    category = _text(entry.get('category'))
++    return {
++        'channel_id': cid,
++        'name': name,
++        'logo': logo_base + signature if signature else fallback_icon,
++        'plot': ('Telewizja na żywo' if live else 'Archiwum kanału')
++                + (' · ' + category if category else ''),
++        'is_live': live,
++    }
+diff --git a/plugin.video.orange_go/resources/lib/tata_programmes.py b/plugin.video.orange_go/resources/lib/tata_programmes.py
+new file mode 100644
+--- /dev/null
++++ b/plugin.video.orange_go/resources/lib/tata_programmes.py
+@@ -0,0 +1,75 @@
++"""Public programme index from already fetched EPG. Import has no I/O or Kodi dependency."""
++import json
++from datetime import datetime, timezone
++import math
++import re
++import unicodedata
++from .tata_pvr import text
++
++
++def build_index(channels, epg):
++    selected = {}
++    for c in channels:
++        if not isinstance(c, dict):
++            continue
++        cid = str(c.get('channelExtId', ''))
++        features = c.get('playFeatures', {})
++        otg = features.get('otg', {}) if isinstance(features, dict) else {}
++        if (cid.isascii() and cid.isdecimal() and c.get('isSubscribed') is True
++                and isinstance(otg, dict) and otg.get('isChannelAllowed') is True):
++            selected.setdefault(cid, {'name': text(c.get('name')), 'programmes': {}})
++    for guide in epg.values():
++        for row in guide:
++            if not isinstance(row, dict):
++                continue
++            entry = selected.get(str(row.get('channelExtId', '')))
++            if entry is None or not isinstance(row.get('programs'), list):
++                continue
++            for p in row['programs']:
++                if not isinstance(p, dict):
++                    continue
++                pid, title = p.get('programExtId'), text(p.get('name'))
++                if isinstance(pid, bool) or not isinstance(pid, (str, int)) or not str(pid) or len(str(pid)) > 256:
++                    continue
++                try:
++                    if isinstance(p['startTimeUtc'], bool) or isinstance(p['endTimeUtc'], bool):
++                        continue
++                    start, end = float(p['startTimeUtc']), float(p['endTimeUtc'])
++                    if not title or not math.isfinite(start) or not math.isfinite(end) or end <= start:
++                        continue
++                    datetime.fromtimestamp(start, timezone.utc)
++                    datetime.fromtimestamp(end, timezone.utc)
++                except (KeyError, ValueError, TypeError, OverflowError, OSError):
++                    continue
++                entry['programmes'][(str(pid), start, end)] = {
++                    'id': str(pid), 'title': title, 'start': start, 'end': end}
++    for entry in selected.values():
++        entry['programmes'] = sorted(entry['programmes'].values(), key=lambda p: (p['start'], p['id']))
++    return json.dumps({'schema': 1, 'channels': selected}, ensure_ascii=False, separators=(',', ':')).encode('utf-8')
++
++
++def normal(value):
++    return ' '.join(unicodedata.normalize('NFKC', value).split()) if isinstance(value, str) else ''
++
++
++def channel_id(metadata, name):
++    channels = metadata.get('channels', {})
++    for strip_hd in (False, True):
++        def key(value):
++            value = normal(value).casefold()
++            return re.sub(r'\s+hd$', '', value) if strip_hd else value
++        hits = [cid for cid, row in channels.items() if isinstance(row, dict) and key(row.get('name')) == key(name)]
++        if len(hits) == 1:
++            return hits[0]
++        if len(hits) > 1:
++            return None
++    return None
++
++
++def now_next(index, cid, now):
++    rows = index.get('channels', {}).get(cid, {}).get('programmes', [])
++    current = [p for p in rows if p['start'] <= now < p['end']]
++    if len(current) != 1:
++        return None
++    following = [p for p in rows if p['start'] >= current[0]['end']]
++    return {'now': current[0], 'next': min(following, key=lambda p: p['start']) if following else None}
+diff --git a/plugin.video.orange_go/resources/lib/tata_pvr.py b/plugin.video.orange_go/resources/lib/tata_pvr.py
+new file mode 100644
+--- /dev/null
++++ b/plugin.video.orange_go/resources/lib/tata_pvr.py
+@@ -0,0 +1,168 @@
++"""Local M3U/XMLTV export. No Kodi, HTTP, credentials or DRM implementation."""
++
++from datetime import datetime, timezone
++import os
++import tempfile
++from urllib.parse import quote, urlencode
++from xml.etree import ElementTree as ET
++
++# Stable first eight numbers and resolver URLs preserve existing PVR favourites.
++CHANNEL_IDS = ('14135', '14999', '14171', '14137', '14190', '14014', '14233', '15049')
++
++
++class ExportError(ValueError):
++    pass
++
++
++def text(value, limit=2048):
++    if not isinstance(value, str):
++        return ''
++    # XML 1.0 control characters and M3U line breaks must not become markup.
++    return ''.join(c if ord(c) >= 32 and not 0xD800 <= ord(c) <= 0xDFFF
++                   and ord(c) not in (0xFFFE, 0xFFFF) else ' ' for c in value).strip()[:limit]
++
++
++def render(channels, epg, logo_base):
++    """Export the entitled live catalogue, with favourites first and native news grouping."""
++    if not isinstance(channels, list) or not isinstance(epg, dict) or not epg:
++        raise ExportError('invalid_snapshot')
++    selected = {}
++    for channel in channels:
++        if not isinstance(channel, dict):
++            continue
++        cid = str(channel.get('channelExtId', ''))
++        if not cid.isascii() or not cid.isdecimal() or channel.get('isSubscribed') is not True:
++            continue
++        features = channel.get('playFeatures', {})
++        otg = features.get('otg', {}) if isinstance(features, dict) else {}
++        if not isinstance(otg, dict) or otg.get('isChannelAllowed') is not True:
++            continue
++        name, signature = text(channel.get('name')), text(channel.get('logoSignature'), 1024)
++        if not name or not signature:
++            raise ExportError('invalid_channel_metadata')
++        groups = []
++        if cid in CHANNEL_IDS:
++            groups.append('Ulubione taty')
++        if channel.get('category') == 'Informacje':
++            groups.append('Informacyjne')
++        # No artificial category for the rest: Kodi's native All includes every row.
++        selected.setdefault(cid, (name, logo_base + quote(signature, safe=''), ';'.join(groups)))
++    if not selected:
++        raise ExportError('empty_channels')
++
++    programmes = {cid: {} for cid in selected}
++    for guide in epg.values():
++        if not isinstance(guide, list):
++            raise ExportError('invalid_epg_snapshot')
++        for row in guide:
++            if not isinstance(row, dict):
++                continue
++            cid = str(row.get('channelExtId', ''))
++            if cid not in selected:
++                continue
++            if not isinstance(row.get('programs'), list):
++                continue
++            for programme in row['programs']:
++                if not isinstance(programme, dict):
++                    continue
++                try:
++                    start_value, stop_value = programme['startTimeUtc'], programme['endTimeUtc']
++                    if isinstance(start_value, bool) or isinstance(stop_value, bool):
++                        continue
++                    start = datetime.fromtimestamp(float(start_value), timezone.utc)
++                    stop = datetime.fromtimestamp(float(stop_value), timezone.utc)
++                    title = text(programme.get('name'))
++                    if not title or stop <= start:
++                        continue
++                except (KeyError, TypeError, ValueError, OverflowError, OSError):
++                    continue
++                key = (start, stop, title)
++                programmes[cid][key] = text(programme.get('description'), 16384)
++    if not any(programmes.values()):
++        raise ExportError('empty_epg')
++
++    m3u = ['#EXTM3U']
++    tv = ET.Element('tv', {'generator-info-name': 'Orange Go Tata local'})
++    order = [cid for cid in CHANNEL_IDS if cid in selected]
++    order.extend(cid for cid in selected if cid not in CHANNEL_IDS)
++    extra_number = len(CHANNEL_IDS)
++    for cid in order:
++        if cid in CHANNEL_IDS:
++            number = CHANNEL_IDS.index(cid) + 1
++        else:
++            extra_number += 1
++            number = extra_number
++        name, logo, groups = selected[cid]
++        m3u.append('#EXTINF:-1 tvg-id="%s" tvg-chno="%s" tvg-logo="%s" group-title="%s",%s'
++                   % (cid, number, logo, groups, name))
++        m3u.append('plugin://plugin.video.orange_go/?' + urlencode({'mode': 'playSource', 'cid': cid, 'tata_pvr': '1'}))
++        channel = ET.SubElement(tv, 'channel', {'id': cid})
++        ET.SubElement(channel, 'display-name', {'lang': 'pl'}).text = name
++        ET.SubElement(channel, 'icon', {'src': logo})
++    for cid in order:
++        for (start, stop, title), description in sorted(programmes.get(cid, {}).items()):
++            programme = ET.SubElement(tv, 'programme', {
++                'channel': cid, 'start': start.strftime('%Y%m%d%H%M%S +0000'),
++                'stop': stop.strftime('%Y%m%d%H%M%S +0000')})
++            ET.SubElement(programme, 'title', {'lang': 'pl'}).text = title
++            if description:
++                ET.SubElement(programme, 'desc', {'lang': 'pl'}).text = description
++    return ('\n'.join(m3u) + '\n').encode('utf-8'), ET.tostring(tv, encoding='utf-8', xml_declaration=True)
++
++
++def _stage(directory, data):
++    fd, path = tempfile.mkstemp(prefix='.tata-pvr-', suffix='.tmp', dir=directory)
++    try:
++        with os.fdopen(fd, 'wb') as handle:
++            handle.write(data)
++            handle.flush()
++            os.fsync(handle.fileno())
++        return path
++    except Exception:
++        os.unlink(path)
++        raise
++
++
++def publish(directory, m3u, xml, index=None):
++    """Stage complete files, atomically replace each; roll back ordinary write failures."""
++    files = {'epg.xml': xml, 'channels.m3u': m3u}
++    if index is not None:
++        files['programme-index.json'] = index
++    staged, previous, replaced = {}, {}, []
++    os.makedirs(directory, exist_ok=True)
++    try:
++        for name, data in files.items():
++            path = os.path.join(directory, name)
++            try:
++                with open(path, 'rb') as handle:
++                    previous[name] = handle.read()
++            except FileNotFoundError:
++                previous[name] = None
++            staged[name] = _stage(directory, data)
++        for name in files:
++            os.replace(staged[name], os.path.join(directory, name))
++            replaced.append(name)
++    except OSError:
++        rollback_failed = False
++        for name in reversed(replaced):
++            path = os.path.join(directory, name)
++            restore = None
++            try:
++                if previous[name] is None:
++                    os.unlink(path)
++                else:
++                    restore = _stage(directory, previous[name])
++                    os.replace(restore, path)
++            except OSError:
++                rollback_failed = True
++            finally:
++                if restore and os.path.exists(restore):
++                    os.unlink(restore)
++        raise ExportError('publish_rollback_failed' if rollback_failed else 'publish_failed') from None
++    finally:
++        for path in staged.values():
++            if os.path.exists(path):
++                try:
++                    os.unlink(path)
++                except OSError:
++                    pass

@@ -1,0 +1,5 @@
+OrangeGo: lg; distribution mtr81/kodi_addons, commit 5c7d7e1ebf78eea8e24ecdce74b5e6c80ed169ad.
+Changes: Tomasz Fiedoruk, 2026 (metadata, PVR, GUI, Zero, no upstream artwork).
+GPL-2.0 declared by upstream addon.xml; no upstream LICENSE was present.
+Full source is included in this archive. External libraries are not included.
+Project: https://github.com/fiedoruk/404-tf-nasz-tv

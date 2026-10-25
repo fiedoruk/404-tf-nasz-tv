@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addon id="script.nasztv.gui" name="Nasz TV — pilot i informacje" version="0.1.9" provider-name="Tomasz Fiedoruk">
+  <requires><import addon="xbmc.python" version="3.0.0"/></requires>
+  <extension point="xbmc.python.script" library="default.py"><provides>executable</provides></extension>
+  <extension point="xbmc.addon.metadata">
+    <summary lang="pl_PL">Czytelne informacje i pomoc pilota bez przejmowania fokusu</summary>
+    <description lang="pl_PL">Lokalna konfiguracja AZR 3.0.3 z kopią i rollbackiem. Jednorazowe gesty; bez usługi i sieci.</description>
+    <platform>all</platform><license>MIT</license>
+  </extension>
+</addon>

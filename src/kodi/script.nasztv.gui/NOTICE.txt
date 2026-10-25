@@ -1,0 +1,4 @@
+Copyright (c) 2026 Tomasz Fiedoruk. Original code: MIT.
+Own artwork: CC BY 4.0. Own custom windows: MIT. AZR runtime changes: CC BY-NC-SA 3.0.
+AZR by jurialmunkey and beatmasterRS, pin 28247cbd44417bbfc3bb63d6686f140df10e8748.
+Project: https://github.com/fiedoruk/404-tf-nasz-tv

@@ -1,0 +1,515 @@
+{
+  "version": "2026.10.25",
+  "archives": [
+    {
+      "name": "script.nasztv.gui-0.1.9.zip",
+      "type": "kodi-addon",
+      "files": [
+        {
+          "path": "script.nasztv.gui/LICENSE-AZR.txt",
+          "source": "src/kodi/script.nasztv.gui/LICENSE-AZR.txt"
+        },
+        {
+          "path": "script.nasztv.gui/LICENSE-artwork.txt",
+          "source": "src/kodi/script.nasztv.gui/LICENSE-artwork.txt"
+        },
+        {
+          "path": "script.nasztv.gui/LICENSE.txt",
+          "source": "src/kodi/script.nasztv.gui/LICENSE.txt"
+        },
+        {
+          "path": "script.nasztv.gui/NOTICE.txt",
+          "source": "src/kodi/script.nasztv.gui/NOTICE.txt"
+        },
+        {
+          "path": "script.nasztv.gui/addon.xml",
+          "source": "src/kodi/script.nasztv.gui/addon.xml"
+        },
+        {
+          "path": "script.nasztv.gui/default.py",
+          "source": "src/kodi/script.nasztv.gui/default.py"
+        },
+        {
+          "path": "script.nasztv.gui/dispatch.py",
+          "source": "src/kodi/script.nasztv.gui/dispatch.py"
+        },
+        {
+          "path": "script.nasztv.gui/install.py",
+          "source": "src/kodi/script.nasztv.gui/install.py"
+        },
+        {
+          "path": "script.nasztv.gui/resources/Custom_NaszTV.xml",
+          "source": "src/kodi/script.nasztv.gui/resources/Custom_NaszTV.xml"
+        },
+        {
+          "path": "script.nasztv.gui/resources/Custom_NaszTVDetails.xml",
+          "source": "src/kodi/script.nasztv.gui/resources/Custom_NaszTVDetails.xml"
+        },
+        {
+          "path": "script.nasztv.gui/resources/media/pixel.png",
+          "source": "src/kodi/script.nasztv.gui/resources/media/pixel.png"
+        },
+        {
+          "path": "script.nasztv.gui/resources/media/remote.png",
+          "source": "src/kodi/script.nasztv.gui/resources/media/remote.png"
+        },
+        {
+          "path": "script.nasztv.gui/resources/media/tv-mark.png",
+          "source": "src/kodi/script.nasztv.gui/resources/media/tv-mark.png"
+        },
+        {
+          "path": "script.nasztv.gui/resources/media/visual15-header-signal.png",
+          "source": "src/kodi/script.nasztv.gui/resources/media/visual15-header-signal.png"
+        },
+        {
+          "path": "script.nasztv.gui/resources/media/visual15-key-back.png",
+          "source": "src/kodi/script.nasztv.gui/resources/media/visual15-key-back.png"
+        },
+        {
+          "path": "script.nasztv.gui/resources/media/visual15-key-home.png",
+          "source": "src/kodi/script.nasztv.gui/resources/media/visual15-key-home.png"
+        },
+        {
+          "path": "script.nasztv.gui/resources/media/visual15-key-left.png",
+          "source": "src/kodi/script.nasztv.gui/resources/media/visual15-key-left.png"
+        },
+        {
+          "path": "script.nasztv.gui/resources/media/visual15-key-ok.png",
+          "source": "src/kodi/script.nasztv.gui/resources/media/visual15-key-ok.png"
+        },
+        {
+          "path": "script.nasztv.gui/resources/media/visual15-key-right.png",
+          "source": "src/kodi/script.nasztv.gui/resources/media/visual15-key-right.png"
+        },
+        {
+          "path": "script.nasztv.gui/resources/media/visual15-key-updown.png",
+          "source": "src/kodi/script.nasztv.gui/resources/media/visual15-key-updown.png"
+        },
+        {
+          "path": "script.nasztv.gui/resources/media/visual15-key-volume.png",
+          "source": "src/kodi/script.nasztv.gui/resources/media/visual15-key-volume.png"
+        },
+        {
+          "path": "script.nasztv.gui/resources/media/visual15-panel-paper.png",
+          "source": "src/kodi/script.nasztv.gui/resources/media/visual15-panel-paper.png"
+        },
+        {
+          "path": "script.nasztv.gui/resources/media/visual15-panel-tint.png",
+          "source": "src/kodi/script.nasztv.gui/resources/media/visual15-panel-tint.png"
+        }
+      ]
+    },
+    {
+      "name": "script.orange.tata.setup-0.1.0.zip",
+      "type": "kodi-addon",
+      "files": [
+        {
+          "path": "script.orange.tata.setup/LICENSE.txt",
+          "source": "src/kodi/script.orange.tata.setup/LICENSE.txt"
+        },
+        {
+          "path": "script.orange.tata.setup/NOTICE.txt",
+          "source": "src/kodi/script.orange.tata.setup/NOTICE.txt"
+        },
+        {
+          "path": "script.orange.tata.setup/addon.xml",
+          "source": "src/kodi/script.orange.tata.setup/addon.xml"
+        },
+        {
+          "path": "script.orange.tata.setup/default.py",
+          "source": "src/kodi/script.orange.tata.setup/default.py"
+        },
+        {
+          "path": "script.orange.tata.setup/setup_keymap.py",
+          "source": "src/kodi/script.orange.tata.setup/setup_keymap.py"
+        }
+      ]
+    },
+    {
+      "name": "service.orange.tata.epg-0.1.1.zip",
+      "type": "kodi-addon",
+      "files": [
+        {
+          "path": "service.orange.tata.epg/LICENSE.txt",
+          "source": "src/kodi/service.orange.tata.epg/LICENSE.txt"
+        },
+        {
+          "path": "service.orange.tata.epg/NOTICE.txt",
+          "source": "src/kodi/service.orange.tata.epg/NOTICE.txt"
+        },
+        {
+          "path": "service.orange.tata.epg/addon.xml",
+          "source": "src/kodi/service.orange.tata.epg/addon.xml"
+        },
+        {
+          "path": "service.orange.tata.epg/epg_schedule.py",
+          "source": "src/kodi/service.orange.tata.epg/epg_schedule.py"
+        },
+        {
+          "path": "service.orange.tata.epg/service.py",
+          "source": "src/kodi/service.orange.tata.epg/service.py"
+        }
+      ]
+    },
+    {
+      "name": "service.orange.tata.reconnect-0.1.7.zip",
+      "type": "kodi-addon",
+      "files": [
+        {
+          "path": "service.orange.tata.reconnect/LICENSE.txt",
+          "source": "src/kodi/service.orange.tata.reconnect/LICENSE.txt"
+        },
+        {
+          "path": "service.orange.tata.reconnect/NOTICE.txt",
+          "source": "src/kodi/service.orange.tata.reconnect/NOTICE.txt"
+        },
+        {
+          "path": "service.orange.tata.reconnect/addon.xml",
+          "source": "src/kodi/service.orange.tata.reconnect/addon.xml"
+        },
+        {
+          "path": "service.orange.tata.reconnect/manifest_observer.py",
+          "source": "src/kodi/service.orange.tata.reconnect/manifest_observer.py"
+        },
+        {
+          "path": "service.orange.tata.reconnect/probe.py",
+          "source": "src/kodi/service.orange.tata.reconnect/probe.py"
+        },
+        {
+          "path": "service.orange.tata.reconnect/reconnect_adapter.py",
+          "source": "src/kodi/service.orange.tata.reconnect/reconnect_adapter.py"
+        },
+        {
+          "path": "service.orange.tata.reconnect/reconnect_state.py",
+          "source": "src/kodi/service.orange.tata.reconnect/reconnect_state.py"
+        },
+        {
+          "path": "service.orange.tata.reconnect/service.py",
+          "source": "src/kodi/service.orange.tata.reconnect/service.py"
+        }
+      ]
+    },
+    {
+      "name": "script.nasztv.favourites-0.1.6-experimental.zip",
+      "type": "kodi-addon",
+      "files": [
+        {
+          "path": "script.nasztv.favourites/LICENSE.txt",
+          "source": "src/kodi/script.nasztv.favourites/LICENSE.txt"
+        },
+        {
+          "path": "script.nasztv.favourites/NOTICE.txt",
+          "source": "src/kodi/script.nasztv.favourites/NOTICE.txt"
+        },
+        {
+          "path": "script.nasztv.favourites/addon.xml",
+          "source": "src/kodi/script.nasztv.favourites/addon.xml"
+        },
+        {
+          "path": "script.nasztv.favourites/default.py",
+          "source": "src/kodi/script.nasztv.favourites/default.py"
+        },
+        {
+          "path": "script.nasztv.favourites/durable_backup.py",
+          "source": "src/kodi/script.nasztv.favourites/durable_backup.py"
+        },
+        {
+          "path": "script.nasztv.favourites/favourites_editor.py",
+          "source": "src/kodi/script.nasztv.favourites/favourites_editor.py"
+        },
+        {
+          "path": "script.nasztv.favourites/integration.py",
+          "source": "src/kodi/script.nasztv.favourites/integration.py"
+        },
+        {
+          "path": "script.nasztv.favourites/order.py",
+          "source": "src/kodi/script.nasztv.favourites/order.py"
+        },
+        {
+          "path": "script.nasztv.favourites/persistence_runtime.py",
+          "source": "src/kodi/script.nasztv.favourites/persistence_runtime.py"
+        },
+        {
+          "path": "script.nasztv.favourites/portable_profile.py",
+          "source": "src/kodi/script.nasztv.favourites/portable_profile.py"
+        },
+        {
+          "path": "script.nasztv.favourites/profile.json",
+          "source": "src/kodi/script.nasztv.favourites/profile.json"
+        },
+        {
+          "path": "script.nasztv.favourites/prune_memberships.py",
+          "source": "src/kodi/script.nasztv.favourites/prune_memberships.py"
+        },
+        {
+          "path": "script.nasztv.favourites/resources/azr/1080i/DialogPVRChannelsOSD.xml",
+          "source": "src/kodi/script.nasztv.favourites/resources/azr/1080i/DialogPVRChannelsOSD.xml"
+        },
+        {
+          "path": "script.nasztv.favourites/resources/azr/1080i/DialogPVRGroupManager.xml",
+          "source": "src/kodi/script.nasztv.favourites/resources/azr/1080i/DialogPVRGroupManager.xml"
+        },
+        {
+          "path": "script.nasztv.favourites/resources/azr/LICENSE.txt",
+          "source": "src/kodi/script.nasztv.favourites/resources/azr/LICENSE.txt"
+        },
+        {
+          "path": "script.nasztv.favourites/resources/azr/zzz-nasztv-favourites.xml",
+          "source": "src/kodi/script.nasztv.favourites/resources/azr/zzz-nasztv-favourites.xml"
+        }
+      ]
+    },
+    {
+      "name": "plugin.video.orange_go-1.0.15-nasz-tv.zip",
+      "type": "kodi-addon",
+      "files": [
+        {
+          "path": "plugin.video.orange_go/LICENSE.txt",
+          "source": "src/kodi/plugin.video.orange_go/LICENSE.txt"
+        },
+        {
+          "path": "plugin.video.orange_go/NOTICE.txt",
+          "source": "src/kodi/plugin.video.orange_go/NOTICE.txt"
+        },
+        {
+          "path": "plugin.video.orange_go/addon.py",
+          "source": "src/kodi/plugin.video.orange_go/addon.py"
+        },
+        {
+          "path": "plugin.video.orange_go/addon.xml",
+          "source": "src/kodi/plugin.video.orange_go/addon.xml"
+        },
+        {
+          "path": "plugin.video.orange_go/resources/__init__.py",
+          "source": "src/kodi/plugin.video.orange_go/resources/__init__.py"
+        },
+        {
+          "path": "plugin.video.orange_go/resources/lib/__init__.py",
+          "source": "src/kodi/plugin.video.orange_go/resources/lib/__init__.py"
+        },
+        {
+          "path": "plugin.video.orange_go/resources/lib/tata_details.py",
+          "source": "src/kodi/plugin.video.orange_go/resources/lib/tata_details.py"
+        },
+        {
+          "path": "plugin.video.orange_go/resources/lib/tata_gui.py",
+          "source": "src/kodi/plugin.video.orange_go/resources/lib/tata_gui.py"
+        },
+        {
+          "path": "plugin.video.orange_go/resources/lib/tata_metadata.py",
+          "source": "src/kodi/plugin.video.orange_go/resources/lib/tata_metadata.py"
+        },
+        {
+          "path": "plugin.video.orange_go/resources/lib/tata_programmes.py",
+          "source": "src/kodi/plugin.video.orange_go/resources/lib/tata_programmes.py"
+        },
+        {
+          "path": "plugin.video.orange_go/resources/lib/tata_pvr.py",
+          "source": "src/kodi/plugin.video.orange_go/resources/lib/tata_pvr.py"
+        },
+        {
+          "path": "plugin.video.orange_go/resources/settings.xml",
+          "source": "src/kodi/plugin.video.orange_go/resources/settings.xml"
+        }
+      ]
+    },
+    {
+      "name": "orange-patches-2026.10.25.zip",
+      "type": "patches",
+      "files": [
+        {
+          "path": "orange/LICENSE.txt",
+          "source": "patches/orange/LICENSE.txt"
+        },
+        {
+          "path": "orange/NOTICE.md",
+          "source": "patches/orange/NOTICE.md"
+        },
+        {
+          "path": "orange/README.md",
+          "source": "patches/orange/README.md"
+        },
+        {
+          "path": "orange/orange-1.0.15-zero-news.patch",
+          "source": "patches/orange/orange-1.0.15-zero-news.patch"
+        },
+        {
+          "path": "orange/orange-1.0.5-to-1.0.15.patch",
+          "source": "patches/orange/orange-1.0.5-to-1.0.15.patch"
+        },
+        {
+          "path": "orange/orange-public-packaging.patch",
+          "source": "patches/orange/orange-public-packaging.patch"
+        }
+      ]
+    },
+    {
+      "name": "azr-dialogseekbar-3.0.3-patch.zip",
+      "type": "patches",
+      "files": [
+        {
+          "path": "azr/LICENSE.txt",
+          "source": "patches/azr/LICENSE.txt"
+        },
+        {
+          "path": "azr/NOTICE.md",
+          "source": "patches/azr/NOTICE.md"
+        },
+        {
+          "path": "azr/README.md",
+          "source": "patches/azr/README.md"
+        },
+        {
+          "path": "azr/azr-3.0.3-dialogseekbar.patch",
+          "source": "patches/azr/azr-3.0.3-dialogseekbar.patch"
+        }
+      ]
+    }
+  ],
+  "apks": [
+    "packages/nasz-tv-shortcut-1.5.apk",
+    "packages/nasz-tv-voice-0.1.4-experimental.apk"
+  ],
+  "source_files": [
+    "AGENT.md",
+    "ATTRIBUTION.md",
+    "BLOCKERS.md",
+    "BUILD.md",
+    "CHANGELOG.md",
+    "COMPATIBILITY.md",
+    "HUMAN.md",
+    "LICENSE",
+    "LICENSES/CC-BY-4.0.txt",
+    "LICENSES/CC-BY-NC-SA-3.0.txt",
+    "LICENSES/GPL-2.0.txt",
+    "LICENSES/MIT.txt",
+    "LICENSES/components.json",
+    "NOTICE.md",
+    "README.en.md",
+    "README.md",
+    "VERSION",
+    "android-build.json",
+    "build-manifest.json",
+    "external-pins.json",
+    "packages/nasz-tv-shortcut-1.5.apk",
+    "packages/nasz-tv-voice-0.1.4-experimental.apk",
+    "patches/README.md",
+    "patches/azr/LICENSE.txt",
+    "patches/azr/NOTICE.md",
+    "patches/azr/README.md",
+    "patches/azr/azr-3.0.3-dialogseekbar.patch",
+    "patches/orange/LICENSE.txt",
+    "patches/orange/NOTICE.md",
+    "patches/orange/README.md",
+    "patches/orange/orange-1.0.15-zero-news.patch",
+    "patches/orange/orange-1.0.5-to-1.0.15.patch",
+    "patches/orange/orange-public-packaging.patch",
+    "patches/patch-index.json",
+    "src/android/tv-shortcut/AndroidManifest.xml",
+    "src/android/tv-shortcut/res/drawable-nodpi/nasz_tv_launcher.jpg",
+    "src/android/tv-shortcut/res/drawable-nodpi/nasz_tv_mark.png",
+    "src/android/tv-shortcut/res/drawable-nodpi/tv_banner.png",
+    "src/android/tv-shortcut/res/drawable-nodpi/tv_icon.png",
+    "src/android/tv-shortcut/res/values/strings.xml",
+    "src/android/tv-shortcut/src/pl/local/telewizjaorange/shortcut/AdbBootJobService.java",
+    "src/android/tv-shortcut/src/pl/local/telewizjaorange/shortcut/AdbBootPolicy.java",
+    "src/android/tv-shortcut/src/pl/local/telewizjaorange/shortcut/AdbBootReceiver.java",
+    "src/android/tv-shortcut/src/pl/local/telewizjaorange/shortcut/BrandingView.java",
+    "src/android/tv-shortcut/src/pl/local/telewizjaorange/shortcut/KodiRpc.java",
+    "src/android/tv-shortcut/src/pl/local/telewizjaorange/shortcut/LaunchGuard.java",
+    "src/android/tv-shortcut/src/pl/local/telewizjaorange/shortcut/QuitCooldown.java",
+    "src/android/tv-shortcut/src/pl/local/telewizjaorange/shortcut/Recovery.java",
+    "src/android/tv-shortcut/src/pl/local/telewizjaorange/shortcut/RpcFrames.java",
+    "src/android/tv-shortcut/src/pl/local/telewizjaorange/shortcut/ShortcutActivity.java",
+    "src/android/voice/AndroidManifest.xml",
+    "src/android/voice/res/xml/voice_interaction.xml",
+    "src/android/voice/src/pl/local/nasztv/voiceassist/AssistService.java",
+    "src/android/voice/src/pl/local/nasztv/voiceassist/AssistSession.java",
+    "src/android/voice/src/pl/local/nasztv/voiceassist/InvocationPolicy.java",
+    "src/android/voice/src/pl/local/nasztv/voiceassist/MetadataRecognitionService.java",
+    "src/android/voice/src/pl/local/nasztv/voiceassist/PrivateFiles.java",
+    "src/android/voice/src/pl/local/nasztv/voiceassist/SessionService.java",
+    "src/android/voice/src/pl/local/nasztv/voiceassist/SessionState.java",
+    "src/android/voice/src/pl/local/nasztv/voiceassist/bridge/AndroidJsonInput.java",
+    "src/android/voice/src/pl/local/nasztv/voiceassist/bridge/BridgeJob.java",
+    "src/android/voice/src/pl/local/nasztv/voiceassist/bridge/CancelToken.java",
+    "src/android/voice/src/pl/local/nasztv/voiceassist/bridge/JsonInput.java",
+    "src/android/voice/src/pl/local/nasztv/voiceassist/bridge/LoopbackRpc.java",
+    "src/android/voice/src/pl/local/nasztv/voiceassist/bridge/PvrBridge.java",
+    "src/android/voice/src/pl/local/nasztv/voiceassist/bridge/Qualification.java",
+    "src/android/voice/src/pl/local/nasztv/voiceassist/bridge/RpcFrames.java",
+    "src/android/voice/src/pl/local/nasztv/voiceassist/bridge/RpcProtocol.java",
+    "src/android/voice/src/pl/local/nasztv/voiceassist/bridge/StrictJson.java",
+    "src/kodi/plugin.video.orange_go/LICENSE.txt",
+    "src/kodi/plugin.video.orange_go/NOTICE.txt",
+    "src/kodi/plugin.video.orange_go/addon.py",
+    "src/kodi/plugin.video.orange_go/addon.xml",
+    "src/kodi/plugin.video.orange_go/resources/__init__.py",
+    "src/kodi/plugin.video.orange_go/resources/lib/__init__.py",
+    "src/kodi/plugin.video.orange_go/resources/lib/tata_details.py",
+    "src/kodi/plugin.video.orange_go/resources/lib/tata_gui.py",
+    "src/kodi/plugin.video.orange_go/resources/lib/tata_metadata.py",
+    "src/kodi/plugin.video.orange_go/resources/lib/tata_programmes.py",
+    "src/kodi/plugin.video.orange_go/resources/lib/tata_pvr.py",
+    "src/kodi/plugin.video.orange_go/resources/settings.xml",
+    "src/kodi/script.nasztv.favourites/LICENSE.txt",
+    "src/kodi/script.nasztv.favourites/NOTICE.txt",
+    "src/kodi/script.nasztv.favourites/addon.xml",
+    "src/kodi/script.nasztv.favourites/default.py",
+    "src/kodi/script.nasztv.favourites/durable_backup.py",
+    "src/kodi/script.nasztv.favourites/favourites_editor.py",
+    "src/kodi/script.nasztv.favourites/integration.py",
+    "src/kodi/script.nasztv.favourites/order.py",
+    "src/kodi/script.nasztv.favourites/persistence_runtime.py",
+    "src/kodi/script.nasztv.favourites/portable_profile.py",
+    "src/kodi/script.nasztv.favourites/profile.json",
+    "src/kodi/script.nasztv.favourites/prune_memberships.py",
+    "src/kodi/script.nasztv.favourites/resources/azr/1080i/DialogPVRChannelsOSD.xml",
+    "src/kodi/script.nasztv.favourites/resources/azr/1080i/DialogPVRGroupManager.xml",
+    "src/kodi/script.nasztv.favourites/resources/azr/LICENSE.txt",
+    "src/kodi/script.nasztv.favourites/resources/azr/zzz-nasztv-favourites.xml",
+    "src/kodi/script.nasztv.gui/LICENSE-AZR.txt",
+    "src/kodi/script.nasztv.gui/LICENSE-artwork.txt",
+    "src/kodi/script.nasztv.gui/LICENSE.txt",
+    "src/kodi/script.nasztv.gui/NOTICE.txt",
+    "src/kodi/script.nasztv.gui/addon.xml",
+    "src/kodi/script.nasztv.gui/default.py",
+    "src/kodi/script.nasztv.gui/dispatch.py",
+    "src/kodi/script.nasztv.gui/install.py",
+    "src/kodi/script.nasztv.gui/resources/Custom_NaszTV.xml",
+    "src/kodi/script.nasztv.gui/resources/Custom_NaszTVDetails.xml",
+    "src/kodi/script.nasztv.gui/resources/media/pixel.png",
+    "src/kodi/script.nasztv.gui/resources/media/remote.png",
+    "src/kodi/script.nasztv.gui/resources/media/tv-mark.png",
+    "src/kodi/script.nasztv.gui/resources/media/visual15-header-signal.png",
+    "src/kodi/script.nasztv.gui/resources/media/visual15-key-back.png",
+    "src/kodi/script.nasztv.gui/resources/media/visual15-key-home.png",
+    "src/kodi/script.nasztv.gui/resources/media/visual15-key-left.png",
+    "src/kodi/script.nasztv.gui/resources/media/visual15-key-ok.png",
+    "src/kodi/script.nasztv.gui/resources/media/visual15-key-right.png",
+    "src/kodi/script.nasztv.gui/resources/media/visual15-key-updown.png",
+    "src/kodi/script.nasztv.gui/resources/media/visual15-key-volume.png",
+    "src/kodi/script.nasztv.gui/resources/media/visual15-panel-paper.png",
+    "src/kodi/script.nasztv.gui/resources/media/visual15-panel-tint.png",
+    "src/kodi/script.orange.tata.setup/LICENSE.txt",
+    "src/kodi/script.orange.tata.setup/NOTICE.txt",
+    "src/kodi/script.orange.tata.setup/addon.xml",
+    "src/kodi/script.orange.tata.setup/default.py",
+    "src/kodi/script.orange.tata.setup/setup_keymap.py",
+    "src/kodi/service.orange.tata.epg/LICENSE.txt",
+    "src/kodi/service.orange.tata.epg/NOTICE.txt",
+    "src/kodi/service.orange.tata.epg/addon.xml",
+    "src/kodi/service.orange.tata.epg/epg_schedule.py",
+    "src/kodi/service.orange.tata.epg/service.py",
+    "src/kodi/service.orange.tata.reconnect/LICENSE.txt",
+    "src/kodi/service.orange.tata.reconnect/NOTICE.txt",
+    "src/kodi/service.orange.tata.reconnect/addon.xml",
+    "src/kodi/service.orange.tata.reconnect/manifest_observer.py",
+    "src/kodi/service.orange.tata.reconnect/probe.py",
+    "src/kodi/service.orange.tata.reconnect/reconnect_adapter.py",
+    "src/kodi/service.orange.tata.reconnect/reconnect_state.py",
+    "src/kodi/service.orange.tata.reconnect/service.py",
+    "tools/build.py",
+    "tools/build_android.py"
+  ]
+}

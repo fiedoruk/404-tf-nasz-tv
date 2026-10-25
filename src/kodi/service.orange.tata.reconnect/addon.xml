@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addon id="service.orange.tata.reconnect" name="TV taty — ograniczony powrót transmisji" version="0.1.7" provider-name="Tomasz Fiedoruk">
+  <requires>
+    <import addon="xbmc.python" version="3.0.0"/>
+    <import addon="plugin.video.orange_go" version="1.0.9"/>
+  </requires>
+  <extension point="xbmc.service" library="service.py"/>
+  <extension point="xbmc.addon.metadata">
+    <summary lang="pl_PL">Ograniczony powrót kanału po utracie sieci lub błędzie manifestu</summary>
+    <description lang="pl_PL">Własna telewizja Orange PVR. Zachowuje dotychczasowy powrót lokalnej sieci i dodaje pojedynczą próbę po świeżych błędach419 dokładnie bieżącego manifestu. Działanie użytkownika anuluje próbę. KandydatHOST, zgodność adresów na urządzeniu niekwalifikowana.</description>
+    <summary lang="en_GB">One PVR recovery attempt after an observed local network outage</summary>
+    <description lang="en_GB">Limited to owned live Orange channels, with callbacks cancelling pending recovery. No initial autoplay or repeated retries.</description>
+    <platform>all</platform>
+    <license>MIT</license>
+  </extension>
+</addon>

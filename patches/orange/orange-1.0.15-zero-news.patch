@@ -1,0 +1,20 @@
+--- a/plugin.video.orange_go/resources/lib/tata_pvr.py
++++ b/plugin.video.orange_go/resources/lib/tata_pvr.py
+@@ -8,6 +8,8 @@
+ 
+ # Stable first eight numbers and resolver URLs preserve existing PVR favourites.
+ CHANNEL_IDS = ('14135', '14999', '14171', '14137', '14190', '14014', '14233', '15049')
++# Owner's news selection supplements the provider category; it grants no access.
++EXTRA_NEWS_IDS = ('14429',)  # Zero, confirmed in the entitled catalogue 2026-10-24.
+ 
+ 
+ class ExportError(ValueError):
+@@ -43,7 +45,7 @@
+         groups = []
+         if cid in CHANNEL_IDS:
+             groups.append('Ulubione taty')
+-        if channel.get('category') == 'Informacje':
++        if channel.get('category') == 'Informacje' or cid in EXTRA_NEWS_IDS:
+             groups.append('Informacyjne')
+         # No artificial category for the rest: Kodi's native All includes every row.
+         selected.setdefault(cid, (name, logo_base + quote(signature, safe=''), ';'.join(groups)))

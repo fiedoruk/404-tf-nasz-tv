@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addon id="script.nasztv.favourites" name="Nasz TV — edycja ulubionych" version="0.1.6" provider-name="Tomasz Fiedoruk">
+  <requires><import addon="xbmc.python" version="3.0.0"/></requires>
+  <extension point="xbmc.python.script" library="default.py"><provides>executable</provides></extension>
+  <extension point="xbmc.addon.metadata">
+    <summary lang="pl_PL">Otwiera natywną edycję lokalnej grupy Moje ulubione.</summary>
+    <description lang="pl_PL">Jednorazowa edycja lokalnej grupy Moje ulubione z trwałym usunięciem nadmiarowych członkostw i prywatną kopią. Bez sterowania odtwarzaniem i zmian ustawień.</description>
+    <platform>android</platform><license>MIT</license>
+  </extension>
+</addon>

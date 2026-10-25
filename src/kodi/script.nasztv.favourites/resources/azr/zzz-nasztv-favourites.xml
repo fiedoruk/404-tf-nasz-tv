@@ -1,0 +1,18 @@
+<keymap>
+  <PVROSDChannels>
+    <keyboard>
+      <return mod="longpress">RunScript(script.nasztv.favourites,edit)</return>
+    </keyboard>
+  </PVROSDChannels>
+  <TVChannels>
+    <keyboard>
+      <return mod="longpress">RunScript(script.nasztv.favourites,edit)</return>
+    </keyboard>
+  </TVChannels>
+  <PVRGroupManager>
+    <keyboard>
+      <return>RunScript(script.nasztv.favourites,select)</return>
+      <backspace>RunScript(script.nasztv.favourites,back)</backspace>
+    </keyboard>
+  </PVRGroupManager>
+</keymap>

@@ -1,0 +1,6 @@
+Copyright (c) 2026 Tomasz Fiedoruk. Original code: MIT.
+EXPERIMENTAL: writes Kodi database; back up your own profile first.
+resources/azr/1080i XML: adaptation of AZR by jurialmunkey and beatmasterRS.
+Pin 28247cbd44417bbfc3bb63d6686f140df10e8748; changes by Tomasz Fiedoruk, 2026.
+XML adaptations: CC BY-NC-SA 3.0; adjacent keymap: MIT.
+Project: https://github.com/fiedoruk/404-tf-nasz-tv

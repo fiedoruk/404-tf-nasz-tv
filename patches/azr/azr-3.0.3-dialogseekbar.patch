@@ -1,0 +1,17 @@
+diff --git a/1080i/DialogSeekBar.xml b/1080i/DialogSeekBar.xml
+--- a/1080i/DialogSeekBar.xml
++++ b/1080i/DialogSeekBar.xml
+@@ -1,10 +1,11 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <!-- Foundation -->
+ <window id="115">
++    <!-- Managed by script.nasztv.gui; schema=1 -->
+     <defaultcontrol always="true">901</defaultcontrol>
+-    <visible>Window.IsActive(fullscreenvideo) + !Window.IsActive(script.pseudotv.TVOverlay.xml) + !Window.IsActive(script.pseudotv.live.TVOverlay.xml)</visible>
++    <visible>[Window.IsActive(fullscreenvideo) + !Window.IsActive(script.pseudotv.TVOverlay.xml) + !Window.IsActive(script.pseudotv.live.TVOverlay.xml)] + !PVR.IsPlayingTV</visible>
+     <allowoverlay>no</allowoverlay>
+-    <visible>[[VideoPlayer.IsFullscreen] + [Window.IsVisible(videoosd) | Window.IsVisible(fullscreeninfo) | Player.Seeking | Player.HasPerformedSeek(3) | Player.Paused | !String.IsEmpty(Player.SeekNumeric) | !String.IsEmpty(PVR.ChannelNumberInput) | Player.Forwarding | Player.Rewinding | Player.ShowInfo | !String.IsEmpty(Window(home).Property(osdshowinfo))]] | !String.IsEmpty(Window(home).Property(osdinfo))</visible>
++    <visible>[[[VideoPlayer.IsFullscreen] + [Window.IsVisible(videoosd) | Window.IsVisible(fullscreeninfo) | Player.Seeking | Player.HasPerformedSeek(3) | Player.Paused | !String.IsEmpty(Player.SeekNumeric) | !String.IsEmpty(PVR.ChannelNumberInput) | Player.Forwarding | Player.Rewinding | Player.ShowInfo | !String.IsEmpty(Window(home).Property(osdshowinfo))]] | !String.IsEmpty(Window(home).Property(osdinfo))] + !PVR.IsPlayingTV</visible>
+     <zorder>0</zorder>
+     <controls>
+         <control type="group">

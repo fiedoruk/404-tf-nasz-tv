@@ -1,0 +1,2 @@
+Copyright (c) 2026 Tomasz Fiedoruk. Original code: MIT.
+Project: https://github.com/fiedoruk/404-tf-nasz-tv

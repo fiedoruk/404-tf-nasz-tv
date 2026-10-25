@@ -1,0 +1,33 @@
+Nasz TV — mapa licencji
+
+Copyright (c) 2026 Tomasz Fiedoruk — własny wkład.
+
+MIT (LICENSES/MIT.txt):
+  tools/*.py; własny kod Python/Java oraz własne pliki konfiguracyjne XML/JSON
+  w src/kodi i src/android, z wyjątkami poniżej. Własne okna Custom_NaszTV.xml
+  i Custom_NaszTVDetails.xml są własnym kodem integracji, bez plików skórki.
+  Pole <license> własnych dodatków opisuje ich kod; odrębne zasoby zachowują
+  licencje wskazane w tej mapie i notkach dołączonych do paczki.
+
+CC BY 4.0 (LICENSES/CC-BY-4.0.txt):
+  własne instrukcje i dokumenty Markdown, NOTICE, ATTRIBUTION, opisy manifestów
+  oraz własne bitmapy PNG/JPG w GUI i Androidzie. Ta licencja nie obejmuje
+  cudzych nazw, znaków towarowych ani treści pobieranych przez użytkownika.
+
+GPL-2.0 (LICENSES/GPL-2.0.txt):
+  src/kodi/plugin.video.orange_go/** i patches/orange/*.patch.
+  Autor upstream: lg; dystrybucja: mtr81/kodi_addons. Zmiany: Tomasz Fiedoruk,
+  2026. Deklaracja GPLv2 pochodzi z przypiętego addon.xml. Nie dopisujemy
+  prawa do użycia późniejszych wersji GPL. Brak LICENSE upstream: NOTICE.md.
+
+CC BY-NC-SA 3.0 (LICENSES/CC-BY-NC-SA-3.0.txt):
+  patches/azr/*.patch;
+  src/kodi/script.nasztv.favourites/resources/azr/1080i/*.xml.
+  Autorzy AZR: jurialmunkey, beatmasterRS; zmiany: Tomasz Fiedoruk, 2026.
+  Wymagane atrybucja, zachowanie tej licencji i niekomercyjny zakres użycia.
+  Własna mapa klawiszy zzz-nasztv-favourites.xml w tym katalogu pozostaje MIT.
+
+Pliki samych licencji zachowują warunki ich wydawców. APK i ZIP-y są
+opakowaniem wymienionych składników i nie zmieniają ich praw. Nie ma jednej
+licencji obejmującej cały ekosystem Kodi, skórkę, DRM lub program telewizyjny.
+Dokładniejsze pochodzenie: NOTICE.md, ATTRIBUTION.md, licenses/components.json.

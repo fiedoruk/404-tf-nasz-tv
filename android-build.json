@@ -1,0 +1,38 @@
+{
+  "jdk": "17",
+  "android_api": 35,
+  "build_tools": "35.0.0",
+  "modules": {
+    "tv-shortcut": {
+      "version": "1.5",
+      "apk_sha256": "55655d3833c927f693f45f6de06fc84581ba7e8f6c2592ae22bd5943cba686cb",
+      "signer_certificate_sha256": "7025022c97e495861c3f76ca0b692634907b61ab69d12446e43e5418ee18bf7c"
+    },
+    "voice": {
+      "version": "0.1.4",
+      "apk_sha256": "8be6ccb543a91ff2d0730914db341bc00df400dad07f419d51590771138cb2d8"
+    }
+  },
+  "d8": "D8 9.1.31 (build 60751e845e0a27ed4dd4f3d50e53c9f196fa30bb from go/r8bot (luci-r8-custom-ci-archive-0-alg6))",
+  "platform": {
+    "source_url": "https://android.googlesource.com/platform/prebuilts/sdk/+/refs/tags/android-15.0.0_r1/35/public/android.jar?format=TEXT",
+    "sha256": "ee568219aa3754977207a8fd849fdbf3a299658dd26dd0907d39ca830587f8aa",
+    "encoding": "base64 download; digest covers decoded JAR"
+  },
+  "tools": [
+    {
+      "name": "aapt2",
+      "sha256": "729a6a8deba828992c50cb448d4ef3947003ec5a0d1deead7534897c8fc3486f"
+    },
+    {
+      "name": "D8 via jadx-1.5.6-all.jar",
+      "sha256": "fe3e12c45acf75f92369685fd02d1d7a7323385dc725680a9b98a0dac0ea554b"
+    },
+    {
+      "name": "apksigner.jar",
+      "sha256": "00ef9948f843fe395d2440ae3ef41405b8040a6d5d46493bd1902ac0ee6deae7"
+    }
+  ],
+  "note": "Use the recorded D8 version to reproduce bytecode. Other SDK D8 versions can produce a different payload; signing is separate.",
+  "d8_toolchain_source": "https://github.com/skylot/jadx/releases/tag/v1.5.6"
+}

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Managed by script.nasztv.gui; schema=1 -->
+<window id="1599" type="dialog" modality="modeless">
+  <!-- Native one-shot visibility trigger. No rendered controls, service or polling. -->
+  <visible>PVR.IsPlayingTV + VideoPlayer.HasEpg + Window.IsActive(fullscreenvideo) + !Player.Caching + !String.IsEmpty(Window(home).Property(nasztv.playback.ready_channel)) + String.IsEqual(Window(home).Property(nasztv.playback.ready_channel),VideoPlayer.ChannelName) + String.IsEqual(Window(home).Property(nasztv.hud.mode),2) + !String.IsEqual(Window(home).Property(nasztv.hud.help),1) + !String.IsEqual(Window(home).Property(nasztv.details.busy),1) + [String.IsEmpty(VideoPlayer.Plot) | String.IsEmpty(VideoPlayer.NextPlot)] + [!String.IsEqual(Window(home).Property(nasztv.details.request_channel_name),VideoPlayer.ChannelName) | !String.IsEqual(Window(home).Property(nasztv.details.request_now_start),VideoPlayer.StartTime) | !String.IsEqual(Window(home).Property(nasztv.details.request_next_start),VideoPlayer.NextStartTime)]</visible>
+  <onload>RunPlugin(plugin://plugin.video.orange_go/?mode=nasztv&amp;action=details)</onload>
+  <zorder>3</zorder>
+  <controls/>
+</window>

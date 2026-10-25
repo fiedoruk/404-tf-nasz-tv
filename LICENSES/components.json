@@ -1,0 +1,151 @@
+{
+  "schema": 1,
+  "components": [
+    {
+      "component": "script.nasztv.gui",
+      "version": "0.1.9",
+      "license": "MIT",
+      "author": "Tomasz Fiedoruk",
+      "scope": "Original code and configuration; separately licensed assets excluded",
+      "evidence": [
+        "src/kodi/script.nasztv.gui/addon.xml",
+        "LICENSES/MIT.txt",
+        "LICENSE"
+      ]
+    },
+    {
+      "component": "script.orange.tata.setup",
+      "version": "0.1.0",
+      "license": "MIT",
+      "author": "Tomasz Fiedoruk",
+      "scope": "Original code and configuration; separately licensed assets excluded",
+      "evidence": [
+        "src/kodi/script.orange.tata.setup/addon.xml",
+        "LICENSES/MIT.txt",
+        "LICENSE"
+      ]
+    },
+    {
+      "component": "service.orange.tata.reconnect",
+      "version": "0.1.7",
+      "license": "MIT",
+      "author": "Tomasz Fiedoruk",
+      "scope": "Original code and configuration; separately licensed assets excluded",
+      "evidence": [
+        "src/kodi/service.orange.tata.reconnect/addon.xml",
+        "LICENSES/MIT.txt",
+        "LICENSE"
+      ]
+    },
+    {
+      "component": "service.orange.tata.epg",
+      "version": "0.1.1",
+      "license": "MIT",
+      "author": "Tomasz Fiedoruk",
+      "scope": "Original code and configuration; separately licensed assets excluded",
+      "evidence": [
+        "src/kodi/service.orange.tata.epg/addon.xml",
+        "LICENSES/MIT.txt",
+        "LICENSE"
+      ]
+    },
+    {
+      "component": "script.nasztv.favourites",
+      "version": "0.1.6",
+      "license": "MIT",
+      "author": "Tomasz Fiedoruk",
+      "scope": "Original code and configuration; separately licensed assets excluded",
+      "evidence": [
+        "src/kodi/script.nasztv.favourites/addon.xml",
+        "LICENSES/MIT.txt",
+        "LICENSE"
+      ]
+    },
+    {
+      "component": "Original artwork and documentation",
+      "version": "2026.10.25",
+      "license": "CC-BY-4.0",
+      "author": "Tomasz Fiedoruk",
+      "scope": "Own Markdown and GUI/Android PNG/JPG",
+      "evidence": [
+        "LICENSE",
+        "LICENSES/CC-BY-4.0.txt",
+        "NOTICE.md"
+      ]
+    },
+    {
+      "component": "OrangeGo derivative and patches",
+      "version": "1.0.15 + Zero + public packaging",
+      "license": "GPL-2.0",
+      "authors": [
+        "lg",
+        "Tomasz Fiedoruk"
+      ],
+      "upstream_commit": "5c7d7e1ebf78eea8e24ecdce74b5e6c80ed169ad",
+      "evidence": [
+        "https://github.com/mtr81/kodi_addons/blob/5c7d7e1ebf78eea8e24ecdce74b5e6c80ed169ad/addons/plugin.video.orange_go/addon.xml",
+        "src/kodi/plugin.video.orange_go/addon.xml",
+        "LICENSES/GPL-2.0.txt",
+        "NOTICE.md"
+      ],
+      "limitation": "No LICENSE in upstream package; no or-later grant inferred"
+    },
+    {
+      "component": "AZR DialogSeekBar and favourites adaptations",
+      "version": "3.0.3 + changes October 2026",
+      "license": "CC-BY-NC-SA-3.0",
+      "authors": [
+        "jurialmunkey",
+        "beatmasterRS",
+        "Tomasz Fiedoruk"
+      ],
+      "upstream_commit": "28247cbd44417bbfc3bb63d6686f140df10e8748",
+      "scope": [
+        "patches/azr/*.patch",
+        "src/kodi/script.nasztv.favourites/resources/azr/1080i/*.xml"
+      ],
+      "evidence": [
+        "https://github.com/beatmasterRS/skin.arctic.zephyr.mod/blob/28247cbd44417bbfc3bb63d6686f140df10e8748/LICENSE.txt",
+        "LICENSES/CC-BY-NC-SA-3.0.txt",
+        "ATTRIBUTION.md"
+      ],
+      "license_text_origin": "Standard legal-code transcription; original upstream LICENSE not re-fetched",
+      "license_text_byte_verification": "NOT MEASURED; authoritative legalcode URL in text"
+    },
+    {
+      "component": "Android tv-shortcut",
+      "version": "1.5/code7",
+      "license": "MIT",
+      "author": "Tomasz Fiedoruk",
+      "evidence": [
+        "src/android/tv-shortcut/AndroidManifest.xml",
+        "LICENSE",
+        "LICENSES/MIT.txt"
+      ],
+      "assets": "Own artwork: CC-BY-4.0"
+    },
+    {
+      "component": "Android voice",
+      "version": "0.1.4/code5",
+      "license": "MIT",
+      "author": "Tomasz Fiedoruk",
+      "evidence": [
+        "src/android/voice/AndroidManifest.xml",
+        "LICENSE",
+        "LICENSES/MIT.txt"
+      ],
+      "assets": "No bundled external assets"
+    },
+    {
+      "component": "Build tools and public manifests",
+      "version": "2026.10.25",
+      "license": "MIT",
+      "author": "Tomasz Fiedoruk",
+      "evidence": [
+        "LICENSES/MIT.txt",
+        "tools/build.py"
+      ]
+    }
+  ],
+  "external_components": "../external-pins.json"
+}

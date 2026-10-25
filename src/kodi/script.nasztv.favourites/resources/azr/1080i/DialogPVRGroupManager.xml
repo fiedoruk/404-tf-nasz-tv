@@ -1,0 +1,430 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<window id="604">
+    <defaultcontrol always="true">29</defaultcontrol>
+    <!-- Nasz TV: native handlers and IDs preserved; helper owns the loading/edit transition. -->
+    <onunload>ClearProperty(nasztv.favourites.mode,home)</onunload>
+    <controls>
+        <include>GlobalOverlay</include>
+        <control type="group">
+            <width>1800</width>
+            <include>DefDialogInfoPanel</include>
+            <control type="label">
+                <description>Header Label</description>
+                <visible>String.IsEmpty(Window(Home).Property(nasztv.favourites.mode))</visible>
+                <left>105</left>
+                <width>1000</width>
+                <posy>22</posy>
+                <include>FontTop</include>
+                <textcolor>Dark2</textcolor>
+                <label>$LOCALIZE[19143]</label>
+            </control>
+            <include content="Kodi_Logo">
+                <param name="dimensions" value="40"/>
+                <param name="top" value="38"/>
+                <param name="left" value="48"/>
+            </include>
+
+            <control type="label">
+                <visible>!String.IsEmpty(Window(Home).Property(nasztv.favourites.mode))</visible>
+                <left>105</left><top>20</top><width>1500</width><height>60</height>
+                <font>LargeNew</font><textcolor>Dark2</textcolor>
+                <label>Moje ulubione</label>
+            </control>
+
+            <!-- Lines -->
+            <control type="image">
+                <top>95</top>
+                <left>45</left>
+                <width>1710</width>
+                <height>1</height>
+                <bottom>10</bottom>
+                <colordiffuse>Black12</colordiffuse>
+                <texture>common/white.png</texture>
+            </control>
+
+            <control type="group">
+                <description>Group list</description>
+                <posx>30</posx>
+                <posy>90</posy>
+                <visible>String.IsEmpty(Window(Home).Property(nasztv.favourites.mode)) | String.IsEqual(Window(Home).Property(nasztv.favourites.mode),loading) | String.IsEqual(Window(Home).Property(nasztv.favourites.mode),saving) | String.IsEqual(Window(Home).Property(nasztv.favourites.mode),cancel)</visible>
+                <control type="label" id="20">
+                    <description>Name label</description>
+                    <posx>15</posx>
+                    <posy>20</posy>
+                    <width>400</width>
+                    <height>34</height>
+                    <font>TinyBold</font>
+                </control>
+                <control type="list" id="13">
+                    <posx>15</posx>
+                    <posy>70</posy>
+                    <width>400</width>
+                    <height>552</height>
+                    <onleft>9000</onleft>
+                    <onright>11</onright>
+                    <onup>13</onup>
+                    <ondown>13</ondown>
+                    <scrolltime tween="cubic" easing="out">500</scrolltime>
+                    <pagecontrol>60</pagecontrol>
+                    <itemlayout height="69" width="400">
+                        <control type="label">
+                            <left>30</left>
+                            <right>30</right>
+                            <height>66</height>
+                            <aligny>center</aligny>
+                            <info>ListItem.Label</info>
+                        </control>
+                    </itemlayout>
+                    <focusedlayout height="69" width="400">
+                        <control type="group">
+                            <visible>!Control.HasFocus(13)</visible>
+                            <control type="image">
+                                <width>100%</width>
+                                <height>66</height>
+                                <texture border="5" colordiffuse="Black12">common/box.png</texture>
+                            </control>
+                            <control type="label">
+                                <left>30</left>
+                                <right>30</right>
+                                <height>66</height>
+                                <aligny>center</aligny>
+                                <info>ListItem.Label</info>
+                            </control>
+                        </control>
+                        <control type="group">
+                            <visible>Control.HasFocus(13)</visible>
+                            <control type="image">
+                                <width>100%</width>
+                                <height>66</height>
+                                <texture border="5" colordiffuse="$VAR[ColorHighlight]">common/box.png</texture>
+                            </control>
+                            <control type="label">
+                                <left>30</left>
+                                <right>30</right>
+                                <height>66</height>
+                                <aligny>center</aligny>
+                                <textcolor>FFFFFFFF</textcolor>
+                                <info>ListItem.Label</info>
+                            </control>
+                        </control>
+                    </focusedlayout>
+                </control>
+            </control>
+            <control type="group">
+                <description>Group list</description>
+                <posx>460</posx>
+                <posy>90</posy>
+                <visible>String.IsEmpty(Window(Home).Property(nasztv.favourites.mode)) | String.IsEqual(Window(Home).Property(nasztv.favourites.mode),edit)</visible>
+                <animation effect="slide" start="0,0" end="-280,0" time="1" condition="String.IsEqual(Window(Home).Property(nasztv.favourites.mode),edit)">Conditional</animation>
+                <control type="label" id="21">
+                    <visible>String.IsEmpty(Window(Home).Property(nasztv.favourites.mode))</visible>
+                    <description>Name label</description>
+                    <posx>0</posx>
+                    <posy>20</posy>
+                    <width>400</width>
+                    <height>34</height>
+                    <font>TinyBold</font>
+                </control>
+                <control type="label">
+                    <visible>String.IsEqual(Window(Home).Property(nasztv.favourites.mode),edit)</visible>
+                    <left>0</left><top>20</top><width>600</width><height>56</height>
+                    <font>MediumBold</font><textcolor>Dark2</textcolor><label>Dodaj kanał</label>
+                </control>
+                <control type="label">
+                    <visible>String.IsEqual(Window(Home).Property(nasztv.favourites.mode),edit)</visible>
+                    <left>0</left><top>75</top><width>600</width><height>40</height>
+                    <font>Small</font><textcolor>Dark1</textcolor><label>OK dodaje do ulubionych</label>
+                </control>
+                <control type="list" id="11">
+                    <posx>0</posx>
+                    <posy>116</posy>
+                    <width>600</width>
+                    <height>468</height>
+                    <onleft condition="String.IsEmpty(Window(Home).Property(nasztv.favourites.mode))">13</onleft>
+                    <onleft condition="String.IsEqual(Window(Home).Property(nasztv.favourites.mode),edit)">8001</onleft>
+                    <onright>12</onright>
+                    <onup condition="String.IsEmpty(Window(Home).Property(nasztv.favourites.mode))">11</onup>
+                    <onup condition="String.IsEqual(Window(Home).Property(nasztv.favourites.mode),edit)">8001</onup>
+                    <ondown condition="String.IsEmpty(Window(Home).Property(nasztv.favourites.mode))">11</ondown>
+                    <ondown condition="String.IsEqual(Window(Home).Property(nasztv.favourites.mode),edit)">8001</ondown>
+                    <scrolltime tween="cubic" easing="out">500</scrolltime>
+                    <pagecontrol>60</pagecontrol>
+                    <itemlayout height="78" width="600">
+                        <control type="image">
+                            <left>18</left><top>9</top><width>64</width><height>58</height>
+                            <aspectratio>keep</aspectratio>
+                            <texture fallback="DefaultTVShows.png">$INFO[ListItem.Icon]</texture>
+                        </control>
+                        <control type="label">
+                            <left>100</left>
+                            <right>20</right>
+                            <height>75</height>
+                            <aligny>center</aligny>
+                            <font>Medium</font>
+                            <info>ListItem.Label</info>
+                        </control>
+                    </itemlayout>
+                    <focusedlayout height="78" width="600">
+                        <control type="group">
+                            <visible>!Control.HasFocus(11)</visible>
+                            <control type="image">
+                                <width>100%</width>
+                                <height>75</height>
+                                <texture border="5" colordiffuse="Black12">common/box.png</texture>
+                            </control>
+                            <control type="image">
+                            <left>18</left><top>9</top><width>64</width><height>58</height>
+                            <aspectratio>keep</aspectratio>
+                            <texture fallback="DefaultTVShows.png">$INFO[ListItem.Icon]</texture>
+                        </control>
+                        <control type="label">
+                                <left>100</left>
+                                <right>20</right>
+                                <height>75</height>
+                                <aligny>center</aligny>
+                                <font>Medium</font>
+                            <info>ListItem.Label</info>
+                            </control>
+                        </control>
+                        <control type="group">
+                            <visible>Control.HasFocus(11)</visible>
+                            <control type="image">
+                                <width>100%</width>
+                                <height>75</height>
+                                <texture border="5" colordiffuse="$VAR[ColorHighlight]">common/box.png</texture>
+                            </control>
+                            <control type="image">
+                            <left>18</left><top>9</top><width>64</width><height>58</height>
+                            <aspectratio>keep</aspectratio>
+                            <texture fallback="DefaultTVShows.png">$INFO[ListItem.Icon]</texture>
+                        </control>
+                        <control type="label">
+                                <left>100</left>
+                                <right>20</right>
+                                <height>75</height>
+                                <aligny>center</aligny>
+                                <textcolor>FFFFFFFF</textcolor>
+                                <font>Medium</font>
+                            <info>ListItem.Label</info>
+                            </control>
+                        </control>
+                    </focusedlayout>
+                </control>
+            </control>
+            <control type="group">
+                <description>Group list</description>
+                <posx>1100</posx>
+                <posy>90</posy>
+                <visible>String.IsEmpty(Window(Home).Property(nasztv.favourites.mode)) | String.IsEqual(Window(Home).Property(nasztv.favourites.mode),edit)</visible>
+                <animation effect="slide" start="0,0" end="-80,0" time="1" condition="String.IsEqual(Window(Home).Property(nasztv.favourites.mode),edit)">Conditional</animation>
+                <control type="label" id="22">
+                    <visible>String.IsEmpty(Window(Home).Property(nasztv.favourites.mode))</visible>
+                    <description>Name label</description>
+                    <posx>-15</posx>
+                    <posy>20</posy>
+                    <width>400</width>
+                    <height>34</height>
+                    <font>TinyBold</font>
+                </control>
+                <control type="label">
+                    <visible>String.IsEqual(Window(Home).Property(nasztv.favourites.mode),edit)</visible>
+                    <left>-15</left><top>20</top><width>600</width><height>56</height>
+                    <font>MediumBold</font><textcolor>Dark2</textcolor><label>Twoje ulubione</label>
+                </control>
+                <control type="label">
+                    <visible>String.IsEqual(Window(Home).Property(nasztv.favourites.mode),edit)</visible>
+                    <left>-15</left><top>75</top><width>600</width><height>40</height>
+                    <font>Small</font><textcolor>Dark1</textcolor><label>OK usuwa tylko z ulubionych</label>
+                </control>
+                <control type="textbox">
+                    <visible>String.IsEqual(Window(Home).Property(nasztv.favourites.mode),edit) + Integer.IsEqual(Container(12).NumItems,0)</visible>
+                    <left>15</left><top>220</top><width>540</width><height>160</height>
+                    <font>Medium</font><textcolor>Dark1</textcolor>
+                    <label>Tu pojawią się ulubione.[CR]Po lewej wybierz kanał i naciśnij OK.</label>
+                </control>
+                <control type="list" id="12">
+                    <posx>-15</posx>
+                    <posy>116</posy>
+                    <width>600</width>
+                    <height>468</height>
+                    <onleft>11</onleft>
+                    <onright condition="String.IsEmpty(Window(Home).Property(nasztv.favourites.mode))">9000</onright>
+                    <onright condition="String.IsEqual(Window(Home).Property(nasztv.favourites.mode),edit)">8001</onright>
+                    <onup condition="String.IsEmpty(Window(Home).Property(nasztv.favourites.mode))">12</onup>
+                    <onup condition="String.IsEqual(Window(Home).Property(nasztv.favourites.mode),edit)">8001</onup>
+                    <ondown condition="String.IsEmpty(Window(Home).Property(nasztv.favourites.mode))">12</ondown>
+                    <ondown condition="String.IsEqual(Window(Home).Property(nasztv.favourites.mode),edit)">8001</ondown>
+                    <scrolltime tween="cubic" easing="out">500</scrolltime>
+                    <pagecontrol>60</pagecontrol>
+                    <itemlayout height="78" width="600">
+                        <control type="image">
+                            <left>18</left><top>9</top><width>64</width><height>58</height>
+                            <aspectratio>keep</aspectratio>
+                            <texture fallback="DefaultTVShows.png">$INFO[ListItem.Icon]</texture>
+                        </control>
+                        <control type="label">
+                            <left>100</left>
+                            <right>20</right>
+                            <height>75</height>
+                            <aligny>center</aligny>
+                            <font>Medium</font>
+                            <info>ListItem.Label</info>
+                        </control>
+                    </itemlayout>
+                    <focusedlayout height="78" width="600">
+                        <control type="group">
+                            <visible>!Control.HasFocus(12)</visible>
+                            <control type="image">
+                                <width>100%</width>
+                                <height>75</height>
+                                <texture border="5" colordiffuse="Black12">common/box.png</texture>
+                            </control>
+                            <control type="image">
+                            <left>18</left><top>9</top><width>64</width><height>58</height>
+                            <aspectratio>keep</aspectratio>
+                            <texture fallback="DefaultTVShows.png">$INFO[ListItem.Icon]</texture>
+                        </control>
+                        <control type="label">
+                                <left>100</left>
+                                <right>20</right>
+                                <height>75</height>
+                                <aligny>center</aligny>
+                                <font>Medium</font>
+                            <info>ListItem.Label</info>
+                            </control>
+                        </control>
+                        <control type="group">
+                            <visible>Control.HasFocus(12)</visible>
+                            <control type="image">
+                                <width>100%</width>
+                                <height>75</height>
+                                <texture border="5" colordiffuse="$VAR[ColorHighlight]">common/box.png</texture>
+                            </control>
+                            <control type="image">
+                            <left>18</left><top>9</top><width>64</width><height>58</height>
+                            <aspectratio>keep</aspectratio>
+                            <texture fallback="DefaultTVShows.png">$INFO[ListItem.Icon]</texture>
+                        </control>
+                        <control type="label">
+                                <left>100</left>
+                                <right>20</right>
+                                <height>75</height>
+                                <aligny>center</aligny>
+                                <textcolor>FFFFFFFF</textcolor>
+                                <font>Medium</font>
+                            <info>ListItem.Label</info>
+                            </control>
+                        </control>
+                    </focusedlayout>
+                </control>
+            </control>
+            <control type="label">
+                <visible>String.IsEqual(Window(Home).Property(nasztv.favourites.mode),edit)</visible>
+                <left>180</left><top>688</top><width>1440</width><height>45</height>
+                <font>Small</font><textcolor>Dark1</textcolor>
+                <label>Lewo / prawo: wybierz listę. Gotowe lub Wstecz: zapisz i wróć.</label>
+            </control>
+            <control type="group">
+                <visible>String.IsEqual(Window(Home).Property(nasztv.favourites.mode),loading) | String.IsEqual(Window(Home).Property(nasztv.favourites.mode),saving) | String.IsEqual(Window(Home).Property(nasztv.favourites.mode),cancel)</visible>
+                <control type="image">
+                    <left>20</left><top>98</top><width>1760</width><height>630</height>
+                    <texture colordiffuse="White100">common/white.png</texture>
+                </control>
+                <control type="label">
+                    <visible>String.IsEqual(Window(Home).Property(nasztv.favourites.mode),loading)</visible>
+                    <left>130</left><top>340</top><width>1540</width><height>90</height>
+                    <font>LargeNew</font><align>center</align><textcolor>Dark2</textcolor>
+                    <label>Otwieram ulubione…</label>
+                </control>
+                <control type="label">
+                    <visible>String.IsEqual(Window(Home).Property(nasztv.favourites.mode),saving)</visible>
+                    <left>130</left><top>340</top><width>1540</width><height>90</height>
+                    <font>LargeNew</font><align>center</align><textcolor>Dark2</textcolor>
+                    <label>Zapisuję ulubione…</label>
+                </control>
+                <control type="label">
+                    <visible>String.IsEqual(Window(Home).Property(nasztv.favourites.mode),cancel)</visible>
+                    <left>130</left><top>340</top><width>1540</width><height>90</height>
+                    <font>LargeNew</font><align>center</align><textcolor>Dark2</textcolor>
+                    <label>Zamykam edytor…</label>
+                </control>
+            </control>
+            <control type="grouplist" id="9000">
+                <centerleft>50%</centerleft>
+                <bottom>30</bottom>
+                <width>100%</width>
+                <height>70</height>
+                <align>center</align>
+                <itemgap>27</itemgap>
+                <orientation>horizontal</orientation>
+                <onleft>11</onleft>
+                <onright condition="String.IsEmpty(Window(Home).Property(nasztv.favourites.mode))">13</onright>
+                <onright condition="String.IsEqual(Window(Home).Property(nasztv.favourites.mode),edit)">12</onright>
+                <onup condition="String.IsEmpty(Window(Home).Property(nasztv.favourites.mode))">13</onup>
+                <onup condition="String.IsEqual(Window(Home).Property(nasztv.favourites.mode),edit)">11</onup>
+                <onup condition="String.IsEqual(Window(Home).Property(nasztv.favourites.mode),loading)">29</onup>
+                <control type="radiobutton" id="25">
+                    <visible>String.IsEmpty(Window(Home).Property(nasztv.favourites.mode))</visible>
+                    <description>Hide group</description>
+                    <label>19289</label>
+                    <radioposx>210</radioposx>
+                    <textwidth>160</textwidth>
+                    <textureradiofocus colordiffuse="Black70">buttons/radio-on.png</textureradiofocus>
+                    <textureradionofocus colordiffuse="Black30">buttons/radio-off.png</textureradionofocus>
+                    <texturefocus colordiffuse="$VAR[ColorHighlight]" border="5">common/box.png</texturefocus>
+                    <texturenofocus colordiffuse="Black12" border="5">common/box.png</texturenofocus>
+                    <width>260</width>
+                    <include>DefDialogButtons</include>
+                </control>
+                <control type="button" id="26">
+                    <visible>String.IsEmpty(Window(Home).Property(nasztv.favourites.mode))</visible>
+                    <description>Add group</description>
+                    <label>15019</label>
+                    <texturefocus colordiffuse="$VAR[ColorHighlight]" border="5">common/box.png</texturefocus>
+                    <texturenofocus colordiffuse="Black12" border="5">common/box.png</texturenofocus>
+                    <width>230</width>
+                    <include>DefDialogButtons</include>
+                </control>
+                <control type="button" id="27">
+                    <visible>String.IsEmpty(Window(Home).Property(nasztv.favourites.mode))</visible>
+                    <description>Rename group</description>
+                    <label>$LOCALIZE[118]</label>
+                    <texturefocus colordiffuse="$VAR[ColorHighlight]" border="5">common/box.png</texturefocus>
+                    <texturenofocus colordiffuse="Black12" border="5">common/box.png</texturenofocus>
+                    <width>230</width>
+                    <include>DefDialogButtons</include>
+                </control>
+                <control type="button" id="28">
+                    <visible>String.IsEmpty(Window(Home).Property(nasztv.favourites.mode))</visible>
+                    <description>Delete group</description>
+                    <label>$LOCALIZE[117]</label>
+                    <texturefocus colordiffuse="$VAR[ColorHighlight]" border="5">common/box.png</texturefocus>
+                    <texturenofocus colordiffuse="Black12" border="5">common/box.png</texturenofocus>
+                    <width>230</width>
+                    <include>DefDialogButtons</include>
+                </control>
+                <control type="button" id="29">
+                    <visible>String.IsEmpty(Window(Home).Property(nasztv.favourites.mode))</visible>
+                    <description>OK / Gotowe — native PersistAll handler</description>
+                    <label>Gotowe</label>
+                    <font>Medium</font>
+                    <texturefocus colordiffuse="$VAR[ColorHighlight]" border="5">common/box.png</texturefocus>
+                    <texturenofocus colordiffuse="Black12" border="5">common/box.png</texturenofocus>
+                    <width>200</width>
+                    <include>DefDialogButtons</include>
+                </control>
+                <control type="button" id="8001">
+                    <visible>String.IsEqual(Window(Home).Property(nasztv.favourites.mode),edit)</visible>
+                    <description>Gotowe — restore original group before native save</description>
+                    <label>Gotowe</label>
+                    <font>Medium</font>
+                    <texturefocus colordiffuse="$VAR[ColorHighlight]" border="5">common/box.png</texturefocus>
+                    <texturenofocus colordiffuse="Black12" border="5">common/box.png</texturenofocus>
+                    <width>200</width>
+                    <include>DefDialogButtons</include>
+                    <onclick>RunScript(script.nasztv.favourites,finish)</onclick>
+                </control>
+            </control>
+        </control>
+    </controls>
+</window>

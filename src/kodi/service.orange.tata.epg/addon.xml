@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addon id="service.orange.tata.epg" name="TV taty — aktualizacja programu" version="0.1.1" provider-name="Tomasz Fiedoruk">
+  <requires>
+    <import addon="xbmc.python" version="3.0.0"/>
+    <import addon="plugin.video.orange_go" version="1.0.8"/>
+  </requires>
+  <extension point="xbmc.service" library="service.py"/>
+  <extension point="xbmc.addon.metadata">
+    <summary lang="pl_PL">Odświeża własną listę kanałów i XMLTV bez Maca</summary>
+    <description lang="pl_PL">Sprawdza wiek programu co pół godziny i zleca eksport OrangeGo, gdy program ma co najmniej sześć godzin. Nie steruje odtwarzaniem.</description>
+    <summary lang="en_GB">Refresh the existing OrangeGo PVR export locally</summary>
+    <description lang="en_GB">Timestamp-based service with persistent retry cooldown. No player control.</description>
+    <platform>all</platform>
+    <license>MIT</license>
+  </extension>
+</addon>

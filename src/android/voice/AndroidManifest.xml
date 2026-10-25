@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="pl.local.nasztv.voiceassist" android:versionCode="5" android:versionName="0.1.4">
+  <uses-sdk android:minSdkVersion="34" android:targetSdkVersion="35" />
+  <uses-permission android:name="android.permission.RECORD_AUDIO" />
+  <uses-permission android:name="android.permission.INTERNET" />
+  <uses-feature android:name="android.hardware.touchscreen" android:required="false" />
+  <queries><package android:name="com.google.android.tts" /><intent><action android:name="android.speech.RecognitionService" /></intent></queries>
+  <application android:label="Nasz TV — próba asystenta" android:allowBackup="false" android:debuggable="true">
+    <service android:name=".AssistService" android:exported="true" android:permission="android.permission.BIND_VOICE_INTERACTION">
+      <intent-filter><action android:name="android.service.voice.VoiceInteractionService" /></intent-filter>
+      <meta-data android:name="android.voice_interaction" android:resource="@xml/voice_interaction" />
+    </service>
+    <service android:name=".SessionService" android:exported="true" android:permission="android.permission.BIND_VOICE_INTERACTION" />
+    <service android:name=".MetadataRecognitionService" android:exported="true" android:permission="android.permission.BIND_SPEECH_RECOGNITION_SERVICE">
+      <intent-filter><action android:name="android.speech.RecognitionService" /></intent-filter>
+    </service>
+  </application>
+</manifest>
